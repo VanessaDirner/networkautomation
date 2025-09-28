@@ -7,36 +7,29 @@ def validateinput():
     ## declare validator variable
     validInput = bool(0)
 
-## exit while loop once ip address passes basic validation
-    while validInput == 0:
-    ## read user input
+
+def validateIPNetworkAddress():
+    valid = False
+    retries = int(0)
+    quit = False
+    while valid == False and retries < 3 and quit != True:
         try:
-            ipaddr = input()
-        except:
-            print("ran into an issue, try again. Are you entering a number in base 10 format?")
-            validInput = bool(0)
-        else:
-            print("Read number as " , ipaddr , ". Will now review the entered information.")
-            validInput = bool(1)
+            address = ipaddress.ip_address(input('Enter IP address: '))
+            print(address)
+        except ValueError:
+            print(ValueError.with_traceback)
+            print("Invalid value. Try again.")
+            retries = retries + 1
+            print("retries", retries)
             if ipaddr == "quit":
                 print("quit was entered. Quitting..")
-                exit()
-            validateIPAddress()
-                    
-
-def validateIPAddress():    
-    validIPaddress = bool(0)
-    while validIPaddress == 0:
-        try:
-            ##  run ip address through ip address validation
-            print("Printing IP address", ipaddress.ip_address(ipaddr))
-            #validIPaddress = bool(1)
-        except:
-            print("Failed to parse IP address. Please re-enter a IP address again.")
-            validateinput()
+                quit = True
+            elif retries >= 3:
+                print("3 tries occured. Quitting ip address validation")
         else:
-            print("not sure in which case we get here.. things are probably working.")
-            exit()
+            print("Valid IP address")
+            valid = True
+
 
 
 
@@ -56,4 +49,6 @@ ipaddr = ipaddress
 
 retryValidation = int(0)
 
-validateinput()
+#validateinput()
+
+validateIPNetworkAddress()
