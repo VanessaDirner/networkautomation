@@ -3,10 +3,6 @@ import ipaddress
 
 ## definitions
 
-def validateinput(): 
-    ## declare validator variable
-    validInput = bool(0)
-
 
 def validateIPNetworkAddress():
     valid = False
@@ -30,8 +26,7 @@ def validateIPNetworkAddress():
             print("Valid IP address")
             valid = True
 
-
-
+  
 
 print("entered module1")
 
@@ -49,6 +44,5 @@ ipaddr = ipaddress
 
 retryValidation = int(0)
 
-#validateinput()
-
 validateIPNetworkAddress()
+
