@@ -1,8 +1,9 @@
-print("entered module1")
 
 def analysis():
+    print("entered module3")
+
     ## This is an introduction to the program, purpose, author etc.
-    print("Welcome to module 1 - ‘Analyze a “show interface brief” command output’ ")
+    print("Welcome to module 3 - ‘Analyze a “show interface brief” command output’ ")
     
     ## Look for ‘show interface brief’ file
     ## 	If it does not exist at the location expected/specified, prompt user for location

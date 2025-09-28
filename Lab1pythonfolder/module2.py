@@ -1,8 +1,9 @@
-print("entered module1")
 
 def routerconfig():
+    print("entered module2")
+
     ## This is an introduction to the program, purpose, author etc.
-    print("Welcome to module 1 - ‘Generate Cisco Router Configuration’ ")
+    print("Welcome to module 2 - ‘Generate Cisco Router Configuration’ ")
     
     ## Prompt the user for a hostname
     ## Validate the hostname given
