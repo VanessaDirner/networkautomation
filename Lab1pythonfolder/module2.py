@@ -19,18 +19,13 @@ def routerconfig():
     configuration.update({"hostname": hostname})
     print(configuration, " configuration updated.")
 
-    
-    ## Prompt the user for the IP Address
-    print("please enter an ip address")
-    ipaddr = input()
-
-    configuration.update({"IP Address": ipaddr})
-    print(configuration, "you've added", configuration.get("IP Address"), "as your IP address")
-
     ## Validate the IP address given
- #   import module1
-#    module1.validateIPAddress()
+    import module1
+    CompleteIPAddr = module1.ipmodule()
     ## Save the IP address configuration
+
+    configuration.update({"IP Address": CompleteIPAddr})
+    print(configuration, "you've added", configuration.get("IP Address"), "as your IP address")
 
     ## Prompt the user for the subnet mask
     ## Validate the subnet mask given
@@ -50,6 +45,7 @@ def routerconfig():
     ## do you want to add more configuration? prompt for type of input and value, add to list, save information
 
     ## Go back to main menu
+
 
 
 '''

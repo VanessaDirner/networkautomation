@@ -1,5 +1,6 @@
 import re
 
+
 def analysis():
     print("entered module3")
 
@@ -11,34 +12,65 @@ def analysis():
     ## 	If it does not exist at the location expected/specified, prompt user for location
 
     ## Read details of show interface brief
-    with open("./showipconfig.txt") as file:
-
+    try:
+        with open("./showipconfig.txt") as file:
+            ## parse the file
+            ## separate out the lines
+            ## read specific parts of lines
+            ## skip the first line and assign each line the name of the first string in the line "vlan1"
+            
+            ## https://www.youtube.com/watch?v=ZLCZkMk69y0 how to read a line
         
-        ## parse the file
-        ## separate out the lines
-        ## read specific parts of lines
-        ## skip the first line and assign each line the name of the first string in the line "vlan1"
-        
-        ## https://www.youtube.com/watch?v=ZLCZkMk69y0 how to read a line
-      
-        lines = file.readlines()
+            lines = file.readlines()
+            file.close
+    except:
+        print("failed to read file. Please check if the showipconfix.txt file is in the Lab1pythonfolder and try again")
+        return False
+    else:
+        print("Read of file succesful.")
 
-        total_lines = len(lines)
-        print("there's a total of", str(total_lines), "file lines.")
-        line_number = int(input("Enter the line # that you'd like to read. Line: "))
 
-        if(line_number > total_lines):
-            print("There's a total of", str(total_lines), "file lines.")
-            print("The line of the text file is outside the range of actual lines in the file.")
+    total_lines = len(lines)
+    print("There's a total of", str(total_lines), "file lines.")
+    valid = False
+    retries = 0
+    quit = False
+    line_number = int()
+    while valid == False and quit == False and retries < 3:                    
+        try:
+            line_number = input("Enter the line # that you'd like to read. Enter quit to quit. Line: ")
+            if(line_number > total_lines or line_number < 1 or type(line_number) != int):
+                print("There's a total of", str(total_lines), "file lines.")
+                print("The line of the text file is outside the range of actual lines in the file.")
+                retries = retries + 1
+                print("retries", retries)
+                if line_number == "quit":
+                    print("quit entered. quitting...")
+                    quit = True
+                elif retries >= 3:
+                    print("3 tries occured. quitting module...")         
+            else:
+                ## get a list of the strings of all lines, and remove any extra lines/newlines
+                line = lines[line_number - 1].rstrip('\n')
+                ## remove whitespaces from beginning or end
+                line = line.strip()  
+                print(line)
+        except:
+            print("failed to read your line request. Please try again.")
+            print("Invalid value. Try again.")
+            retries = retries + 1
+            print("retries", retries)
+            if line_number == "quit":
+                print("quit was entered. Quitting..")
+                quit = True
+            elif retries >= 3:
+                print("3 tries occured. Quitting ip address validation")
+
         else:
-            ## get a list of the strings of all lines, and remove any extra lines/newlines
-            line = lines[line_number - 1].rstrip('\n')
-            ## remove whitespaces from beginning or end
-            line = line.strip()  
-            print(line)
+            print("Returning to line input.")
 
 
-'''
+    '''
          ##  experimental
         interfaceRegexPattern = "^[a-zA-Z]+[0-0]"
 
