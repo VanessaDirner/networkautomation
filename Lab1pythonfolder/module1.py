@@ -13,7 +13,6 @@ def ipmodule():
                 address = ipaddress.ip_address(input('Enter IP address: '))
                 print(address)
             except ValueError:
-                print(ValueError.with_traceback)
                 print("Invalid value. Try again.")
                 retries = retries + 1
                 print("retries", retries)
@@ -33,11 +32,10 @@ def ipmodule():
         quit = False
         while valid == False and retries < 3 and quit != True:
             try:
-                subnet = ipaddress.ip_network(input('Enter your network address as well as subnet in CIDR notation. /n A valid subnet example would be: 10.1.1.0/24.  '))
+                subnet = ipaddress.ip_network(input('Enter network address as well as subnet in CIDR notation.'))
                 print(subnet)
             except ValueError:
-                print(ValueError.with_traceback)
-                print("Invalid value. Try again. ")
+                print("Invalid value. Try again.  /n A valid subnet example would be: 10.1.1.0/24.")
                 retries = retries + 1
                 print("retries", retries)
                 if ipaddr == "quit":
@@ -54,9 +52,6 @@ def ipmodule():
     def compareIpAddresstoSubnet():
         isipinnetwork = ipaddress.ip_address(ipaddr) in ipaddress.ip_network(ipnetw)
         return isipinnetwork
-
-
-
 
     print("entered module1")
 
@@ -79,17 +74,27 @@ def ipmodule():
     print("back out of function. returned value is:", ipaddr)
 
     ipnetw = validateSubnet()
-    subnetmask = ipnetw  ##trim off /24
+    print(ipaddr)
+    subnetmask = ipnetw.netmask.compressed
     print("back out of function. subnet value is ", ipnetw)
 
     answer = compareIpAddresstoSubnet()
-    print("The provided IP address is part of the provided subnet. ", answer)
-    print("Validation complete.")
-
-    ipfullvalue = (ipaddr.compressed, ipnetw.netmask.compressed)
     
-    print("Your IP Address and subnet mask are:", ipfullvalue)
+    print("Validation complete.")
+    if answer == True:
+        print("The provided IP address is part of the provided subnet.")
+    elif answer == False:
+        print("The provided IP address is NOT part of the provided subnet. ")
+        return False
 
-    return ipfullvalue
+    ## https://www.w3schools.com/python/python_tuples_unpack.asp
+    ipfullvalue = ipaddr.compressed, ipnetw.netmask.compressed
+    (validatedIPaddr, validatedSubnetMask) = ipfullvalue
+        
+    print("Your IP Address and subnet mask are:")
+    print(validatedIPaddr)
+    print(validatedSubnetMask)
+
+    return validatedIPaddr, validatedSubnetMask
 
 

@@ -1,1 +1,6 @@
-h2hulahellohellohello
+h2hulahellohellohello10.1.1.1hhostname	h
+IP Address	('1.1.1.1', '255.255.255.0')hostname	h
+IP Address	('1.1.1.1', '255.255.255.0')hostname	g
+IP Address	('1.1.1.1', '255.255.255.0')hostname	h
+IP Address	(1.1.1.1 255.255.255.0)hostname	h
+IP Address	1.1.1.1 255.255.255.0
