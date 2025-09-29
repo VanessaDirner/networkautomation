@@ -23,15 +23,18 @@ def analysis():
         
             lines = file.readlines()
             file.close
+            ## THIS IS SAVING TO AN ARRAY AND DUMPS OUT AS AN ENTIRE ARRAY IF PRINTED!!!!! :/  to do tomorrow or whenever, just not now
     except:
         print("failed to read file. Please check if the showipconfix.txt file is in the Lab1pythonfolder and try again")
         return False
     else:
         print("Read of file succesful.")
-
-
+  
     total_lines = len(lines)
     print("There's a total of", str(total_lines), "file lines.")
+    for total_lines in lines:
+        print(lines)
+        print("line printed")
     valid = False
     retries = 0
     quit = False
@@ -39,7 +42,7 @@ def analysis():
     while valid == False and quit == False and retries < 3:                    
         try:
             line_number = input("Enter the line # that you'd like to read. Enter quit to quit. Line: ")
-            if(line_number > total_lines or line_number < 1 or type(line_number) != int):
+            if(line_number > total_lines or line_number < 0): ##  or type(line_number) != int
                 print("There's a total of", str(total_lines), "file lines.")
                 print("The line of the text file is outside the range of actual lines in the file.")
                 retries = retries + 1
