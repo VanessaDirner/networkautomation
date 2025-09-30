@@ -30,31 +30,34 @@ def analysis():
     else:
         print("Read of file succesful.")
   
+    ipconfigArray = []
     total_lines = len(lines)
-    print("There's a total of", str(total_lines), "file lines.")
+    ## append to an easier to handle data object to read to later
     for line in lines:
         print(line)
-        ## append to an easier to handle data object to read to later
-        print("line printed")
+        ipconfigArray.append(line)
+
+
+    
+    print("There's a total of", str(total_lines), "file lines.")
     valid = False
     retries = 0
     quit = False
-    ##line_number = int()
     while valid == False and quit == False and retries < 3:                    
         try:
-            line_number = int(input("Enter the line # that you'd like to read. Enter quit to quit. Line: "))
-            if(line_number > total_lines or line_number < 0):
-                print("There's a total of", str(total_lines), "file lines.")
+            line_number = int(input("Enter the line # that you'd like to read. Enter 0 to quit. Line: ")) 
+            if(line_number > total_lines or line_number < 1):
                 print("The line of the text file is outside the range of actual lines in the file.")
                 retries = retries + 1
                 print("retries", retries)
-                if line_number.lower() == "quit":
+                if line_number == 0:
                     print("quit entered. quitting...")
                     quit = True
                 elif retries >= 3:
                     print("3 tries occured. quitting module...")         
             else:
-                print("")
+                tempvalue = line_number+1
+                print(ipconfigArray[tempvalue])
         except:
             print("failed to read your line request. Please try again.")
             print("Invalid value. Try again.")
