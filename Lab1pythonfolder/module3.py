@@ -32,8 +32,8 @@ def analysis():
   
     total_lines = len(lines)
     print("There's a total of", str(total_lines), "file lines.")
-    for total_lines in lines:
-        print(lines)
+    for line in lines:
+        print(line)
         print("line printed")
     valid = False
     retries = 0
@@ -47,7 +47,7 @@ def analysis():
                 print("The line of the text file is outside the range of actual lines in the file.")
                 retries = retries + 1
                 print("retries", retries)
-                if line_number == "quit":
+                if line_number == "quit" or line_number == "QUIT":
                     print("quit entered. quitting...")
                     quit = True
                 elif retries >= 3:
