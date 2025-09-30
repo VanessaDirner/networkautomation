@@ -23,7 +23,7 @@ def analysis():
         
             lines = file.readlines()
             file.close
-            ## THIS IS SAVING TO AN ARRAY AND DUMPS OUT AS AN ENTIRE ARRAY IF PRINTED!!!!! :/  to do tomorrow or whenever, just not now
+
     except:
         print("failed to read file. Please check if the showipconfix.txt file is in the Lab1pythonfolder and try again")
         return False
@@ -34,30 +34,27 @@ def analysis():
     print("There's a total of", str(total_lines), "file lines.")
     for line in lines:
         print(line)
+        ## append to an easier to handle data object to read to later
         print("line printed")
     valid = False
     retries = 0
     quit = False
-    line_number = int()
+    ##line_number = int()
     while valid == False and quit == False and retries < 3:                    
         try:
-            line_number = input("Enter the line # that you'd like to read. Enter quit to quit. Line: ")
-            if(line_number > total_lines or line_number < 0): ##  or type(line_number) != int
+            line_number = int(input("Enter the line # that you'd like to read. Enter quit to quit. Line: "))
+            if(line_number > total_lines or line_number < 0):
                 print("There's a total of", str(total_lines), "file lines.")
                 print("The line of the text file is outside the range of actual lines in the file.")
                 retries = retries + 1
                 print("retries", retries)
-                if line_number == "quit" or line_number == "QUIT":
+                if line_number.lower() == "quit":
                     print("quit entered. quitting...")
                     quit = True
                 elif retries >= 3:
                     print("3 tries occured. quitting module...")         
             else:
-                ## get a list of the strings of all lines, and remove any extra lines/newlines
-                line = lines[line_number - 1].rstrip('\n')
-                ## remove whitespaces from beginning or end
-                line = line.strip()  
-                print(line)
+                print("")
         except:
             print("failed to read your line request. Please try again.")
             print("Invalid value. Try again.")
