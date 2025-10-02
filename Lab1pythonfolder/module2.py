@@ -90,26 +90,3 @@ def routerconfig():
     with open(filename, "w") as f:
         f.write(fullconfiguration)
 
-
-
-
-'''
-
-
-    ## do you want to add more configuration? prompt for type of input and value, add to list, save information
-
-    ## Go back to main menu
-
-    print("where do you want to save the file?")
-
-    home = os.path.expanduser("")
-    environment = os.defpath
-    print(home, environment)
-    exit()
-
-
-    path = input()
-
-    fullpath = home + "CiscoRouterConfiguration.txt"
-
-'''

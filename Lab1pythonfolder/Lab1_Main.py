@@ -10,7 +10,7 @@ import module1, module2, module3
 
 print("Welcome to my program")
 print("A wonderful place for network enthusiasts. This lab 1 assignment will help you with many administrative tasks.")
-print("This program was written by Vanessa Dirner on September 23, 2025.")
+print("This program was written by Vanessa Dirner in September, 2025.")
 print("Let's get started")
 
 
