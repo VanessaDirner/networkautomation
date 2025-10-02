@@ -1,0 +1,7 @@
+Enable 
+ Configure Terminal 
+ Hostname whoopsiedatsy 
+ int g0/2 
+ IP Address	1.1.1.1 255.255.255.0 
+ No shutdown 
+  Exit

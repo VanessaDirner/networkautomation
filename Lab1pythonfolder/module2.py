@@ -75,12 +75,11 @@ def routerconfig():
     ciscoconfig = ciscoconfig.replace("(", "")
     ciscoconfig = ciscoconfig.replace(")", "")
 
+    fullconfiguration =  f"{en} \n {conft} \n {hostname} {host} \n {interface} \n {ciscoconfig} \n {noshut} \n {leave}"
 
     ## Tell the user the details of the saved configuration
     print("your final configuration details are: \n",
-           en, "\n", conft, "\n",
-           hostname, host, "\n",  interface, "\n",
-           ciscoconfig, "\n", noshut, "\n", leave)
+          fullconfiguration)
     
     ## save all details to a file
     filename = "CiscoRouterConfig.txt"
@@ -89,9 +88,7 @@ def routerconfig():
 
     ## overwrite existing content - we don't need more than 1 set of config
     with open(filename, "w") as f:
-        f.write(en, "\n", conft, "\n",
-           hostname, host, "\n",  interface, "\n",
-           ciscoconfig, "\n", noshut, "\n", leave)
+        f.write(fullconfiguration)
 
 
 
