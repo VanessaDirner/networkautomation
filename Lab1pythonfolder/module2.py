@@ -8,11 +8,20 @@ def routerconfig():
     ## This is an introduction to the program, purpose, author etc.
     print("Welcome to module 2 - ‘Generate Cisco Router Configuration’ ")
     
+
+    ## setup template configuration details
+
+    ## this will hold the ip config
     configuration = {
     }
 
-    presetconfig = ["En", "Conf T", "Interface", "no shutdown", "exit"]
-    print(presetconfig)
+    ## these are our preset commands before hostname
+    en = "Enable"
+    conft = "Configure Terminal"
+    hostname = "Hostname"
+    host = ""
+    noshut = "No shutdown"
+    leave = "Exit"
 
 
     ## Prompt the user for a hostname
@@ -21,12 +30,10 @@ def routerconfig():
     while tries <3 and valid == False:
         print("Please enter a hostname:")
         try:
-            hostname = input()
+            host = input()
             ## Validate the hostname given
-            print("You've entered", hostname , "as your hostname")
-            ## Save the hostname configuration
-            configuration.update({"hostname": hostname})
-            print(configuration, " configuration updated.")
+            print("You've entered", host , "as your hostname")
+            print(" configuration updated.")
             valid = True
         except:
             print("Sorry, didn't catch that. Would you like to enter that again? ")
@@ -71,7 +78,9 @@ def routerconfig():
 
     ## Tell the user the details of the saved configuration
     print("your final configuration details are: \n",
-           ciscoconfig)
+           en, "\n", conft, "\n",
+           hostname, "\n",  interface, 
+           ciscoconfig, "\n", noshut, "\n", leave)
     
     ## save all details to a file
     filename = "CiscoRouterConfig.txt"

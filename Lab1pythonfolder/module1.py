@@ -5,6 +5,11 @@ def ipmodule():
     ## definitions
 
     def validateIPAddress():
+        ## Prompt the user for an ip address
+        print("Please enter an IP address that you'd like to validate")
+        ## process first octet
+        print("Enter the ip address in dotted decimal notation format now:")
+        ## for example, your current IP address and subnet mask is: ->
         valid = False
         retries = int(0)
         quit = False
@@ -32,10 +37,10 @@ def ipmodule():
         quit = False
         while valid == False and retries < 3 and quit != True:
             try:
-                subnet = ipaddress.ip_network(input('Enter network address as well as subnet in CIDR notation. /n'))
+                subnet = ipaddress.ip_network(input('Enter network address as well as subnet in CIDR notation. \n'))
                 print(subnet)
             except ValueError:
-                print("Invalid value. Try again.  /n A valid subnet example would be: 10.1.1.0/24.")
+                print("Invalid value. Try again.  \n A valid subnet example would be: 10.1.1.0/24.")
                 retries = retries + 1
                 print("retries", retries)
                 if ipaddr == "quit":
@@ -58,13 +63,6 @@ def ipmodule():
     ## This is an introduction to the program, purpose, author etc.
     print("Welcome to module 1 - ‘Validate an IP Address and a Subnet Mask’ ")
 
-    ## Prompt the user for an ip address
-    print("Please enter an IP address that you'd like to validate")
-
-    ## process first octet
-    print("Enter the ip address in dotted decimal notation format now:")
-    ## for example, your current IP address and subnet mask is: ->
-
     ## declare variable for ip address with type of ipaddress
     ipaddr = ipaddress.ip_address
     ipnetw = ipaddress.ip_network
@@ -85,7 +83,8 @@ def ipmodule():
         print("The provided IP address is part of the provided subnet.")
     elif answer == False:
         print("The provided IP address is NOT part of the provided subnet. ")
-        return False
+        print("Let's do that again.")
+        
 
     ## https://www.w3schools.com/python/python_tuples_unpack.asp
     ipfullvalue = ipaddr.compressed, ipnetw.netmask.compressed
