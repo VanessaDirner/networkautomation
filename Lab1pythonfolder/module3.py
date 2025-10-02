@@ -25,7 +25,7 @@ def analysis():
             file.close
 
     except:
-        print("failed to read file. Please check if the showipconfix.txt file is in the Lab1pythonfolder and try again")
+        print("failed to read file. Please check if the showipconfix.txt file is in the Lab1pythonfolder. If it is, change your running directory to Lab1pythonfolder. Thanks! :)")
         return False
     else:
         print("Read of file succesful.")

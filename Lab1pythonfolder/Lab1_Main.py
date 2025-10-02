@@ -1,3 +1,6 @@
+## The virtual environment for this lab is called lab1.
+## ./Lab1pythonfolder/lab1/scripts/activate
+
 
 ## import modules
 import module1, module2, module3

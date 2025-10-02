@@ -1,2 +1,2 @@
-hostname	988ajj
+hostname	heslops
 IP Address	10.1.1.1 255.255.255.0

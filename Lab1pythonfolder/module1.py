@@ -32,7 +32,7 @@ def ipmodule():
         quit = False
         while valid == False and retries < 3 and quit != True:
             try:
-                subnet = ipaddress.ip_network(input('Enter network address as well as subnet in CIDR notation.'))
+                subnet = ipaddress.ip_network(input('Enter network address as well as subnet in CIDR notation. /n'))
                 print(subnet)
             except ValueError:
                 print("Invalid value. Try again.  /n A valid subnet example would be: 10.1.1.0/24.")
