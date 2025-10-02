@@ -73,13 +73,16 @@ def ipmodule():
         
         ipaddr = validateIPAddress()
 
-        print("back out of function. returned value is:", ipaddr)
-
+        if ipaddr == None:
+            print("Sorry, but you did not complete IP address validation. Exiting module 1")
+            exit()
         ipnetw = validateSubnet()
-        print(ipaddr)
-        subnetmask = ipnetw.netmask.compressed
-        print("back out of function. subnet value is ", ipnetw)
 
+        if ipnetw == None:
+            print("Sorry but you did not configure a subnet succesfully. Exiting module 1.")
+            exit()
+
+            
         answer = compareIpAddresstoSubnet()
         
         ## https://www.w3schools.com/python/python_tuples_unpack.asp
