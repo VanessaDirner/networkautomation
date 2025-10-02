@@ -79,7 +79,7 @@ def routerconfig():
     ## Tell the user the details of the saved configuration
     print("your final configuration details are: \n",
            en, "\n", conft, "\n",
-           hostname, "\n",  interface, 
+           hostname, host, "\n",  interface, "\n",
            ciscoconfig, "\n", noshut, "\n", leave)
     
     ## save all details to a file
@@ -89,7 +89,9 @@ def routerconfig():
 
     ## overwrite existing content - we don't need more than 1 set of config
     with open(filename, "w") as f:
-        f.write(ciscoconfig)
+        f.write(en, "\n", conft, "\n",
+           hostname, host, "\n",  interface, "\n",
+           ciscoconfig, "\n", noshut, "\n", leave)
 
 
 
