@@ -39,14 +39,14 @@ def analysis():
 
 
     
-    print("There's a total of", str(total_lines), "file lines.")
+    print("There's a total of", str(total_lines - 2), "file lines.")
     valid = False
     retries = 0
     quit = False
     while valid == False and quit == False and retries < 3:                    
         try:
             line_number = int(input("Enter the line # that you'd like to read. Enter 0 to quit. Line: ")) 
-            if(line_number > total_lines or line_number < 1):
+            if(line_number >= total_lines -1 or line_number < 1):
                 print("The line of the text file is outside the range of actual lines in the file.")
                 retries = retries + 1
                 print("retries", retries)
