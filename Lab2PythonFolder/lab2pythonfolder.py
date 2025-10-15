@@ -117,71 +117,78 @@ while quit != True:
     except:
         print("Failed to get details about device choice.")
     
-    
-  
-    ##Connect to the Network Device, and display the following information
-    net_connect = ConnectHandler(**selecteddevice)
-    net_connect.enable()
-    print(net_connect.find_prompt())
-
-    ##Display the active Hostname of the Device
-    hostname = net_connect.send_command('hostname')
-
-    ##Display the Model of the Device - show version - a specific line has the model type in it, pipe command only get only that
-    showver = net_connect.send_command('show version | include Model Number')
-    print(showver)
-
-    print("displayed basic device information above succesfully. What other details would you like to see? ")
-    
-
-    #Prompt user to save the following information to appropriately named files
-    #Interface information (show ip interface brief)
-    #OSPF Neighbor Information (show ip ospf neighbor)
-    #Running configuration file (show running-config)
-
-    outoption = input()
-
+    failed = False
     try:
-        if outoption == 1:            
-            print("You selected 1 succesfully.")
-            ipintbr = net_connect.send_command('show ip int brief')
-            print(ipintbr)
-            print("Printed details succesfully.")
-            try:
-                print("now saving ipintbr to a file")
-                with open("ipintbr.txt", "w") as f:
-                    f.write(ipintbr)
-            except:
-                print("Failed to print to file")
-        elif outoption == 2:
-            print("You selected 1 succesfully.")
-            ospfneighbor = net_connect.send_command('show ip ospf neighbor')
-            print(ospfneighbor)
-            print("Printed details succesfully.")
-            try:
-                print("now saving ospfneighbor to a file")
-                with open("ospfneighbor.txt", "w") as f:
-                    f.write(ospfneighbor)
-            except:
-                print("Failed to print to file")
-        elif outoption == 3:
-            print("You selected 1 succesfully.")
-            runconf = net_connect.send_command('show running-config | include hostname')
-            print(runconf)
-            print("Printed details succesfully.")
-            try:
-                print("now saving runconf to a file")
-                with open("runconf.txt", "w") as f:
-                    f.write(runconf)
-            except:
-                print("Failed to print to file")
-        else:
-            print("Sorry, was looking for 1, 2 or 3 for selecting a cisco device output")
+        ##Connect to the Network Device, and display the following information
+        net_connect = ConnectHandler(**selecteddevice)
+        net_connect.enable()
+        print(net_connect.find_prompt())
+
+        ##Display the active Hostname of the Device
+        hostname = net_connect.send_command('show running-config | include hostname')
+
+        ##Display the Model of the Device - show version - a specific line has the model type in it, pipe command only get only that
+        showver = net_connect.send_command('show version | include Model Number')
+        print(showver)
     except:
-        print("Failed to read input.")
+        print("Failed to connect and enumerate details of device." \
+        "Since the device cannot be connected to, will not continue. Quitting.")
+        failed = True
+        quit = True
+
+    if failed == False:
+        print("displayed basic device information above succesfully. What other details would you like to see? " \
+        "Your options are: 1 - IP Interface Brief, 2 - Show IP OSPF Neighbor, 3 - Show Running Configuration" \
+        "Enter 1 2 or 3 as your option. You can enter quit to quit.")
+        
+
+        #Prompt user to save the following information to appropriately named files
+        #Interface information (show ip interface brief)
+        #OSPF Neighbor Information (show ip ospf neighbor)
+        #Running configuration file (show running-config)
+        outoption = input()
+
+        try:
+            if outoption == 1:            
+                print("You selected 1 succesfully.")
+                ipintbr = net_connect.send_command('show ip int brief')
+                print(ipintbr)
+                print("Printed details succesfully.")
+                try:
+                    print("Now saving ipintbr to a file")
+                    with open("ipintbr.txt", "w") as f:
+                        f.write(ipintbr)
+                except:
+                    print("Failed to print to file")
+            elif outoption == 2:
+                print("You selected 1 succesfully.")
+                ospfneighbor = net_connect.send_command('show ip ospf neighbor')
+                print(ospfneighbor)
+                print("Printed details succesfully.")
+                try:
+                    print("now saving ospfneighbor to a file")
+                    with open("ospfneighbor.txt", "w") as f:
+                        f.write(ospfneighbor)
+                except:
+                    print("Failed to print to file")
+            elif outoption == 3:
+                print("You selected 1 succesfully.")
+                runconf = net_connect.send_command('show running-config')
+                print(runconf)
+                print("Printed details succesfully.")
+                try:
+                    print("now saving runconf to a file")
+                    with open("runconf.txt", "w") as f:
+                        f.write(runconf)
+                except:
+                    print("Failed to print to file")
+            else:
+                print("Sorry, was looking for 1, 2 or 3 for selecting a cisco device output")
+        except:
+            print("Failed to read input.")
 
 
-    net_connect.disconnect()
+        net_connect.disconnect()
 
 
     #All completed prompts should loop back to section b, and offer the user an option to quit if they are satisfied with their exports.
