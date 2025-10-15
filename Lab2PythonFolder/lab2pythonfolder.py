@@ -120,7 +120,7 @@ while quit != True:
     
   
     ##Connect to the Network Device, and display the following information
-    net_connect = ConnectHandler(**ciscotemplate)
+    net_connect = ConnectHandler(**selecteddevice)
     net_connect.enable()
     print(net_connect.find_prompt())
 
