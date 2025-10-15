@@ -25,19 +25,18 @@ print("You are at rack ", rack)
 net_connect = ConnectHandler(**ciscotemplate)
 net_connect.enable()
 print(net_connect.find_prompt())
-
 ##Display the active Hostname of the Device
 hostname = net_connect.send_command('hostname')
 ##Display the Model of the Device - show version - a specific line has the model type in it, pip command only get only that
-##showver = net_connect.send_command('show version')
-##print(showver)
+showver = net_connect.send_command('show version')
+print(showver)
 
-##ipintbr = net_connect.send_command('show ip int brief')
-##print(ipintbr)
+ipintbr = net_connect.send_command('show ip int brief')
+print(ipintbr)
 ospfneighbor = net_connect.send_command('show ip ospf neighbor')
 print(ospfneighbor)
 runconf = net_connect.send_command('show running-config')
-
+print(runconf)
 net_connect.disconnect()
 
 
