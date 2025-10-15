@@ -130,14 +130,14 @@ while quit != True:
             print("Failed to get details about device choice.")
     
     while gotob == True:
-        leave = input()
         print("Enter quit to quit now. Enter anything else to continue")
-        
+        leave = input()
+        print("Continuing.")   
         failed = False
         try:
             ##Connect to the Network Device, and display the following information
             net_connect = ConnectHandler(**selecteddevice)
-            net_connect.enable()
+            net_connect.enable() 
             print(net_connect.find_prompt())
 
             ##Display the active Hostname of the Device
@@ -150,6 +150,7 @@ while quit != True:
             print("Failed to connect and enumerate details of device." \
             "Since the device cannot be connected to, will not continue. Quitting.")
             failed = True
+            quit = True
 
         if failed == False:
             print("displayed basic device information above succesfully. What other details would you like to see? " \
