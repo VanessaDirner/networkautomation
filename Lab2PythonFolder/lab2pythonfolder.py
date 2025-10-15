@@ -10,24 +10,35 @@ while quit != True:
 
     rack = 7
 
+    devicechoice = 'R1'
+
     ciscotemplate = {
         'device_type': 'cisco_ios',
-        'host':  devices['R1'],
+        'host':  devices[devicechoice],
         'username':'cisco',
         'password':'cisco'
     }
 
+    ##Identify what Rack you are in within the prompt
+    print("You are at rack ", rack)
+
     ##Prompt a User to input an IP Address for a Network Device in the Rack
-    print("Hi, which device woud you like to connect to. Your options are: ", devices.keys)
+    print("Hi, which device would you like to connect to. Your options are: ", devices.keys())
 
     devicechoice = input()
 
     ##print("now connecting to machine.", devices[1])
     ##Validate the IP Address entered works for your Rack or series of devices
-    print("You selected: ", input)
-    ##Identify what Rack you are in within the prompt
-    print("You are at rack ", rack)
+    print("You selected: ", devicechoice)
+    if (devicechoice == "quit"):
+        quit = True
+    elif(devicechoice == "R2" ):
+        print("You selected r2")
+        print(ciscotemplate)
+    else:
+        print("You didn't select one of the options. Try again")
 
+ 
     '''
     ##Connect to the Network Device, and display the following information
     net_connect = ConnectHandler(**ciscotemplate)
