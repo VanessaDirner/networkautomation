@@ -72,13 +72,14 @@ while quit != True:
     print("Hi, which device would you like to connect to. Your options are: R1, R2, R3, SW1, SW2, SW3, SW4, SW5")
 
     devicechoice = input()
+    devicechoice = devicechoice.upper()
     selecteddevice = ''
 
     ##print("now connecting to machine.", devices[1])
     ##Validate the IP Address entered works for your Rack or series of devices
     try:
         print("You entered: ", devicechoice , "succesfully")
-        if (devicechoice == "quit"):
+        if (devicechoice == "QUIT"):
             quit = True
         elif(devicechoice == "R1" ):
             print("You selected R1")
@@ -147,6 +148,7 @@ while quit != True:
         #OSPF Neighbor Information (show ip ospf neighbor)
         #Running configuration file (show running-config)
         outoption = input()
+        outoption = outoption.upper()
 
         try:
             if outoption == 1:            
