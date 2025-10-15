@@ -28,14 +28,14 @@ print(net_connect.find_prompt())
 ##Display the active Hostname of the Device
 hostname = net_connect.send_command('hostname')
 ##Display the Model of the Device - show version - a specific line has the model type in it, pip command only get only that
-showver = net_connect.send_command('show version')
+showver = net_connect.send_command('show version | include Model Number')
 print(showver)
 
 ipintbr = net_connect.send_command('show ip int brief')
 print(ipintbr)
 ospfneighbor = net_connect.send_command('show ip ospf neighbor')
 print(ospfneighbor)
-runconf = net_connect.send_command('show running-config')
+runconf = net_connect.send_command('show running-config | include hostname')
 print(runconf)
 net_connect.disconnect()
 
