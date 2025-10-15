@@ -6,15 +6,61 @@ quit = False
 
 while quit != True:
 
-    devices = {'R1':'192.168.7.1', 'R2':'192.168.7.2', 'R3':'192.168.7.3', 'SW1':'192.168.7.11', 'SW2':'192.168.7.12', 'SW3':'192.168.7.13', 'SW4':'192.168.7.14','SW5':'192.168.7.15'}
-
     rack = 7
 
-    devicechoice = 'R1'
-
-    ciscotemplate = {
+    R1template = {
         'device_type': 'cisco_ios',
-        'host':  devices[devicechoice],
+        'host':  '192.168.7.1',
+        'username':'cisco',
+        'password':'cisco'
+    }
+
+    R2template =  {
+        'device_type': 'cisco_ios',
+        'host':  '192.168.7.2',
+        'username':'cisco',
+        'password':'cisco'
+    }
+
+    R3template =  {
+        'device_type': 'cisco_ios',
+        'host':  '192.168.7.3',
+        'username':'cisco',
+        'password':'cisco'
+    }
+
+    SW1template = {
+        'device_type': 'cisco_ios',
+        'host':  '192.168.7.11',
+        'username':'cisco',
+        'password':'cisco'
+    }
+
+    SW2template =  {
+        'device_type': 'cisco_ios',
+        'host':  '192.168.7.12',
+        'username':'cisco',
+        'password':'cisco'
+    }
+
+    SW3template = {
+        'device_type': 'cisco_ios',
+        'host':  '192.168.7.13',
+        'username':'cisco',
+        'password':'cisco'
+    }
+
+    SW4template =  {
+        'device_type': 'cisco_ios',
+        'host':  '192.168.7.14',
+        'username':'cisco',
+        'password':'cisco'
+    }
+
+    
+    SW5template =  {
+        'device_type': 'cisco_ios',
+        'host':  '192.168.7.15',
         'username':'cisco',
         'password':'cisco'
     }
@@ -23,7 +69,7 @@ while quit != True:
     print("You are at rack ", rack)
 
     ##Prompt a User to input an IP Address for a Network Device in the Rack
-    print("Hi, which device would you like to connect to. Your options are: ", devices.keys())
+    print("Hi, which device would you like to connect to. Your options are: R1, R2, R3, SW1, SW2, SW3, SW4, SW5")
 
     devicechoice = input()
 
@@ -32,9 +78,30 @@ while quit != True:
     print("You selected: ", devicechoice)
     if (devicechoice == "quit"):
         quit = True
-    elif(devicechoice == "R2" ):
-        print("You selected r2")
-        print(ciscotemplate)
+    elif(devicechoice == "R1" ):
+        print("You selected R1")
+        print("loading configuration..", R1template)
+    elif(devicechoice == "R2"):
+        print("You selected R2")
+        print("loading configuration..", R2template)
+    elif(devicechoice == "R3" ):
+        print("You selected R3")
+        print("loading configuration..", R3template)
+    elif(devicechoice == "SW1"):
+        print("You selected SW1")
+        print("loading configuration..", SW1template)
+    elif(devicechoice == "SW2"):
+        print("You selected SW2")
+        print("loading configuration..", SW2template)
+    elif(devicechoice == "SW3"):
+        print("You selected SW3")
+        print("loading configuration..", SW3template)
+    elif(devicechoice == "SW4"):
+        print("You selected SW4")
+        print("loading configuration..", SW4template)
+    elif(devicechoice == "SW5"):
+        print("You selected SW5")
+        print("loading configuration..", SW5template)
     else:
         print("You didn't select one of the options. Try again")
 
