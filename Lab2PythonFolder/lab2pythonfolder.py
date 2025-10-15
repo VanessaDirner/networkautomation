@@ -130,7 +130,9 @@ while quit != True:
             print("Failed to get details about device choice.")
     
     while gotob == True:
-            
+        leave = input()
+        print("Enter quit to quit now. Enter anything else to continue")
+        
         failed = False
         try:
             ##Connect to the Network Device, and display the following information
