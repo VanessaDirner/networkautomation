@@ -73,7 +73,8 @@ while quit != True:
         print("You are at rack ", rack)
 
         ##Prompt a User to input an IP Address for a Network Device in the Rack
-        print("Hi, which device would you like to connect to. Your options are: R1, R2, R3, SW1, SW2, SW3, SW4, SW5")
+        print("Hi, which device would you like to connect to. Your options are: R1, R2, R3, SW1, SW2, SW3, SW4, SW5." \
+        "Enter 0 to quit.")
 
         devicechoice = input()
         devicechoice = devicechoice.upper()
@@ -82,9 +83,11 @@ while quit != True:
         ##print("now connecting to machine.", devices[1])
         ##Validate the IP Address entered works for your Rack or series of devices
         try:
-            print("You entered: ", devicechoice , "succesfully")
-            if (devicechoice == "QUIT"):
+            print("You entered: ", devicechoice , ", to quit, succesfully")
+            if (devicechoice == "0"):
+                print("quit entered, quitting.")
                 quit = True
+                exit()
             elif(devicechoice == "R1" ):
                 print("You selected R1")
                 print("loading configuration..", R1template, "succesfully")
@@ -130,8 +133,12 @@ while quit != True:
             print("Failed to get details about device choice.")
     
     while gotob == True:
-        print("Enter quit to quit now. Enter anything else to continue")
+        print("Enter 0 to quit now. Enter anything else to continue")
         leave = input()
+        if leave == '0':
+            print("0 was entered, quitting.")
+            quit = True
+            exit()
         print("Continuing.")   
         failed = False
         try:
@@ -155,7 +162,7 @@ while quit != True:
         if failed == False:
             print("displayed basic device information above succesfully. What other details would you like to see? " \
             "Your options are: 1 - IP Interface Brief, 2 - Show IP OSPF Neighbor, 3 - Show Running Configuration" \
-            "Enter 1 2 or 3 as your option. You can enter quit to quit.")
+            "Enter 1 2 or 3 as your option. You can enter 0 to quit.")
             
 
             #Prompt user to save the following information to appropriately named files
@@ -163,10 +170,9 @@ while quit != True:
             #OSPF Neighbor Information (show ip ospf neighbor)
             #Running configuration file (show running-config)
             outoption = input()
-            outoption = outoption.upper()
 
             try:
-                if outoption == 1:            
+                if outoption == '1':            
                     print("You selected 1 succesfully.")
                     ipintbr = net_connect.send_command('show ip int brief')
                     print(ipintbr)
@@ -177,19 +183,22 @@ while quit != True:
                             f.write(ipintbr)
                     except:
                         print("Failed to print to file")
-                elif outoption == 2:
-                    print("You selected 1 succesfully.")
-                    ospfneighbor = net_connect.send_command('show ip ospf neighbor')
-                    print(ospfneighbor)
-                    print("Printed details succesfully.")
-                    try:
-                        print("now saving ospfneighbor to a file")
-                        with open("ospfneighbor.txt", "w") as f:
-                            f.write(ospfneighbor)
-                    except:
-                        print("Failed to print to file")
-                elif outoption == 3:
-                    print("You selected 1 succesfully.")
+                elif outoption == '2':
+                    if devicechoice == "SW5":
+                        print("You selected switch 5 earlier. Cannot print ospf details.")
+                    else:
+                        print("You selected 2 succesfully.")
+                        ospfneighbor = net_connect.send_command('show ip ospf neighbor')
+                        print(ospfneighbor)
+                        print("Printed details succesfully.")
+                        try:
+                            print("now saving ospfneighbor to a file")
+                            with open("ospfneighbor.txt", "w") as f:
+                                f.write(ospfneighbor)
+                        except:
+                            print("Failed to print to file")
+                elif outoption == '3':
+                    print("You selected 3 succesfully.")
                     runconf = net_connect.send_command('show running-config')
                     print(runconf)
                     print("Printed details succesfully.")
@@ -199,6 +208,9 @@ while quit != True:
                             f.write(runconf)
                     except:
                         print("Failed to print to file")
+                elif outoption == '0':
+                    print("quitting")
+                    exit()
                 else:
                     print("Sorry, was looking for 1, 2 or 3 for selecting a cisco device output")
             except:
