@@ -1,7 +1,0 @@
-Enable 
- Configure Terminal 
- Hostname julio 
- int g0/1 
- IP Address	1.1.1.1 255.255.255.0 
- No shutdown 
- Exit
