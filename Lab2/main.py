@@ -1,6 +1,7 @@
 import os
-from ping3 import ping
+from ping3 import ping, verbose_ping
 import ifaddr
+from ipaddress import ip_network
 
 ## get all adapters
 adapters = ifaddr.get_adapters()
@@ -31,7 +32,7 @@ for adapter in adapters:
 
 print(adapters_dict)
 print(ips_dict)
-
+'''
 print("choose an adapter to check devices on")
 exit()
 adpt_choice = int(input())
@@ -45,15 +46,19 @@ try:
         print("Sorry, that was outside the range of interfaces you have. Please double check the given list.")
 except:
     print("Sorry that was not a number. ")
-
+'''
 ## get ip details of the interface
 
+range = ip_network('192.168.7.0/24')
 
-'''
-try:
-    pings = ping('10.1.1.1')
-    print("pinging", pings)
-except:
-    print("unknown error")
+address = list(range.hosts())
+print(address)
 
-    '''
+## ping all addresses in space
+for address in range:
+    try:
+        pings = verbose_ping(address)
+        print("pinging", pings)
+    except:
+        print("unknown error")
+
