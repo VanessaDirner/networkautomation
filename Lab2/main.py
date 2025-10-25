@@ -8,9 +8,10 @@ adapters = ifaddr.get_adapters()
 ## send to dictionaries to choose from later
 adapters_dict = {}
 ips_dict = {}
+slash_dict = {}
 
-count = int(0)
-
+adptcount = int(0)
+ipcount = int(0)
 
 #adapters_dict.update({count : adapter.nice_name})
 #        ips_dict.update({count : ip.ip}, {count: ip.network_prefix})
@@ -19,11 +20,13 @@ count = int(0)
 
 ## print out adapter details and format it so we can get an answer and select one
 for adapter in adapters:
-    count = count + 1
-    adapters_dict[count] = adapter.nice_name
+    adptcount = adptcount + 1
+    ipcount = 0 ## reset
+    adapters_dict[adptcount] = adapter.nice_name
     for ip in adapter.ips:
-        ips_dict[count,"ip"] = ip.ip
-        ips_dict[count,"slash"] = ip.network_prefix
+        ipcount = ipcount + 1
+        ips_dict[adptcount, ipcount, "ip"] = ip.ip
+        slash_dict[adptcount, ipcount, "slash"] = ip.network_prefix
 
 
 print(adapters_dict)
