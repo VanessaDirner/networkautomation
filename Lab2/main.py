@@ -5,6 +5,7 @@ import ipaddress
 from ipaddress import IPv4Network, ip_network
 import time
 import json
+import scapy
 
 ## get all adapters
 adapters = ifaddr.get_adapters()
@@ -36,21 +37,28 @@ for adapter in adapters:
 print(adapters_dict)
 print(ips_dict)
 
-print("choose an adapter to check devices on")
-exit()
-adpt_choice = int(input())
-print("You chose 2")
 
+
+valid = False
+tries = 0
 ## double check their answer to see if we can select an interface based on it
-try:
-    if adpt_choice >= 0 and adpt_choice <= count:
-        print("Will now attempt to enumerate network devices")
-    else:
-        print("Sorry, that was outside the range of interfaces you have. Please double check the given list.")
-except:
-    print("Sorry that was not a number. ")
+while tries < 3 and valid == False:
+    try:
+        print("choose an adapter to check devices on")
+        adpt_choice = int(input())
+        print("You chose ", adpt_choice)
+        if adpt_choice > 0 and adpt_choice <= adptcount:
+            print("Will now attempt to enumerate network devices")
+            valid = True
+        else:
+            print("Sorry, that was outside the range of interfaces you have. Please double check the given list.")
+            tries = tries + 1
+    except:
+        print("Sorry that was not a number. ")
+        tries = tries + 1
 
 ## get ip details of the interface
+exit()
 
 range = ip_network('192.168.7.0/24')
 
@@ -73,3 +81,19 @@ print(ip - 1)
 
 #ip_list = [str(ip) for ip in IPv4Network('192.168.8.0/24')]
 #print(ip_list[:5])
+
+
+
+print("pinging")
+
+a = ping('192.168.7.11')
+
+b = ping('192.168.7.12')
+
+c = ping('192.168.7.13')
+
+d = ping('192.168.7.15')
+
+print(a,b,c,d)
+
+exit()
