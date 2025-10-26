@@ -9,7 +9,15 @@ import scapy
 
 ## get all adapters
 adapters = ifaddr.get_adapters()
-
+print(adapters)
+print(type(adapters))
+print(adapters[2])
+print(adapters[2].ips)
+print(adapters[2].ips[0])
+print(adapters[2].ips[0].ip)
+print(adapters[2].ips[0].network_prefix)
+print(adapters[2].ips[0].nice_name)
+exit()
 ## send to dictionaries to choose from later
 adapters_dict = {}
 ips_dict = {}
@@ -35,10 +43,11 @@ for adapter in adapters:
         ipcount = ipcount + 1
         ips_dict[adptcount, ipcount, "ip"] = ip.ip
         slash_dict[adptcount, ipcount, "slash"] = ip.network_prefix
-        full_dictionary = {adapter.nice_name : {ip.ip , ip.network_prefix}}
+        full_dictionary = {adapter.nice_name : {{ipcount : ip.ip}, {ipcount :ip.network_prefix}}}
         fullcount = fullcount + 1
         adapter_details_dict.update({fullcount : full_dictionary})
         print(full_dictionary)
+      
 
 print("Printing completed dict: \n")
 print(adapter_details_dict)
@@ -76,7 +85,7 @@ while tries < 3 and valid == False:
 ## get ip details of the interface
 
 
-
+print(adapter_details_dict.get(adpt_choice))
 
 
 
