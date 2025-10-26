@@ -14,10 +14,12 @@ adapters = ifaddr.get_adapters()
 adapters_dict = {}
 ips_dict = {}
 slash_dict = {}
+full_dictionary = {}
+adapter_details_dict = {}
 
 adptcount = int(0)
 ipcount = int(0)
-
+fullcount = int(0)
 #adapters_dict.update({count : adapter.nice_name})
 #        ips_dict.update({count : ip.ip}, {count: ip.network_prefix})
 #    print("ips of network adapter", adapter.nice_name)
@@ -28,12 +30,26 @@ for adapter in adapters:
     adptcount = adptcount + 1
     ipcount = 0 ## reset
     adapters_dict[adptcount] = adapter.nice_name
+    
     for ip in adapter.ips:
         ipcount = ipcount + 1
         ips_dict[adptcount, ipcount, "ip"] = ip.ip
         slash_dict[adptcount, ipcount, "slash"] = ip.network_prefix
+        full_dictionary = {adapter.nice_name : {ip.ip , ip.network_prefix}}
+        fullcount = fullcount + 1
+        adapter_details_dict.update({fullcount : full_dictionary})
+        print(full_dictionary)
 
+print("Printing completed dict: \n")
+print(adapter_details_dict)
 
+for x, obj in adapter_details_dict.items():
+  print(x)
+
+  for y in obj:
+    print(y + ':', obj[y])
+
+exit()
 print(adapters_dict)
 print(ips_dict)
 
@@ -57,7 +73,15 @@ while tries < 3 and valid == False:
         print("Sorry that was not a number. ")
         tries = tries + 1
 
+
+
 ## get ip details of the interface
+
+
+
+
+
+
 exit()
 
 range = ip_network('192.168.7.0/24')
