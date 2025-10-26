@@ -49,9 +49,7 @@ for x, obj in adapter_details_dict.items():
   for y in obj:
     print(y + ':', obj[y])
 
-exit()
-print(adapters_dict)
-print(ips_dict)
+
 
 
 
@@ -63,8 +61,8 @@ while tries < 3 and valid == False:
         print("choose an adapter to check devices on")
         adpt_choice = int(input())
         print("You chose ", adpt_choice)
-        if adpt_choice > 0 and adpt_choice <= adptcount:
-            print("Will now attempt to enumerate network devices")
+        if adpt_choice > 0 and adpt_choice <= len(adapter_details_dict):
+            print("Will now attempt to enumerate network devices for ", adapter_details_dict.get(adpt_choice))
             valid = True
         else:
             print("Sorry, that was outside the range of interfaces you have. Please double check the given list.")
