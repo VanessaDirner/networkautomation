@@ -50,20 +50,19 @@ while tries < 3 and valid == False:
 ## get ip details of the interface
 
 ## have address, format it
-ip_address_combined = f"\'{chosen_ip}/{chosen_prefix}\'"
+ip_address_combined = f"{chosen_ip}/{chosen_prefix}"
 print(ip_address_combined)
 print(type(ip_address_combined))
-interface_ip_address = ipaddress.IPv4Address(ip_address_combined)
-
+interface_ip_address = ipaddress.IPv4Address(chosen_ip)
+print(interface_ip_address)
 ## get network address from ip address
 
 
-range = ip_network(ip_network_combined)
+range = ip_network(ip_address_combined, strict=False)
+print(range)
 
-exit()
 ## ping all addresses in space
 ##range = ip_network('192.168.7.0/24')
-print(range)
 ## turn network subnet into a actual list of the range
 addresses = list(range.hosts())
 
