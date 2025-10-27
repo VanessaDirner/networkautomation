@@ -53,10 +53,7 @@ while tries < 3 and valid == False:
 
 
 ## ping all addresses in space
-#for address in addresses:
-#        print(address)
-#        time.sleep(15)
-  
+
 
 
 range = ip_network('192.168.7.0/24')
@@ -67,10 +64,13 @@ print(addresses[0])
 for address in addresses:
     print(address)
     print(type(address))
+    stringip = str(address)
+    print(stringip)
+
     
 print("pinging")
 
-a = ping('192.168.7.11')
+a = ping(stringip)
 
 print(a)
 
