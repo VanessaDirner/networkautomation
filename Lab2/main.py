@@ -6,9 +6,8 @@ from ipaddress import IPv4Network, ip_network
 import time
 import json
 import scapy
+import threading
 
-
-'''
 ## get all adapters
 adapters = ifaddr.get_adapters()
 
@@ -35,6 +34,8 @@ while tries < 3 and valid == False:
             print(adapters[adpt_choice].ips[0].ip)
             print(adapters[adpt_choice].ips[0].network_prefix)
             print(adapters[adpt_choice].ips[0].nice_name)
+            chosen_ip = adapters[adpt_choice].ips[0].ip
+            chosen_prefix = adapters[adpt_choice].ips[0].network_prefix
             valid = True
         else:
             tries = tries + 1
@@ -46,26 +47,48 @@ while tries < 3 and valid == False:
 
 
 
-'''
 ## get ip details of the interface
 
+## have address, format it
+ip_address_combined = f"\'{chosen_ip}/{chosen_prefix}\'"
+print(ip_address_combined)
+print(type(ip_address_combined))
+interface_ip_address = ipaddress.IPv4Address(ip_address_combined)
+
+## get network address from ip address
 
 
+range = ip_network(ip_network_combined)
 
+exit()
 ## ping all addresses in space
-
-
-
-range = ip_network('192.168.7.0/24')
-
+##range = ip_network('192.168.7.0/24')
+print(range)
+## turn network subnet into a actual list of the range
 addresses = list(range.hosts())
+
+## access a specific ip
 print(addresses[0])
 
+updevices = []
+
+## iterate, print IPs
 for address in addresses:
     print(address)
     print(type(address))
     stringip = str(address)
     print(stringip)
+    result = verbose_ping(stringip)
+    ## add pingable devices to list
+    if result != True:
+        print("No device found at", stringip)
+    elif result == False:
+        print("Device found at ", stringip)
+        updevices.append(stringip)
+
+
+
+
 
     
 print("pinging")
@@ -75,12 +98,6 @@ a = ping(stringip)
 print(a)
 
 exit()
-ip = ipaddress.IPv4Address('192.168.1.1')
-print(ip - 1)
-
-#ip_list = [str(ip) for ip in IPv4Network('192.168.8.0/24')]
-#print(ip_list[:5])
-
 
 
 print("pinging")
