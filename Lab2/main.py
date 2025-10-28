@@ -7,7 +7,10 @@ import time
 import json
 import scapy
 import threading
-
+import concurrent.futures
+import subprocess
+import nmap
+'''
 ## get all adapters
 adapters = ifaddr.get_adapters()
 
@@ -70,7 +73,28 @@ addresses = list(range.hosts())
 print(addresses[0])
 
 updevices = []
+'''
+nm = nmap.PortScanner()
 
+#https://xael.org/pages/python-nmap-en.html
+nm.scan(hosts='192.168.7.0/24')
+hosts_list = [(x, nm[x]['status']['state']) for x in nm.all_hosts()]
+for host, status in hosts_list:
+    print("scanning")
+    print('{0}:{1}'.format(host, status))
+    print("Sending to list")
+
+exit()
+nm.all_hosts()
+
+
+for address in addresses:
+    print("scanning", address)
+    nm.scan(str(address))
+
+
+
+exit()
 ## iterate, print IPs
 for address in addresses:
     print(address)
@@ -78,6 +102,7 @@ for address in addresses:
     stringip = str(address)
     print(stringip)
     result = verbose_ping(stringip)
+    
     ## add pingable devices to list
     if result != True:
         print("No device found at", stringip)
@@ -87,9 +112,6 @@ for address in addresses:
 
 
 
-
-
-    
 print("pinging")
 
 a = ping(stringip)
