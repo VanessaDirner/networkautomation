@@ -10,7 +10,7 @@ import threading
 import concurrent.futures
 import subprocess
 import nmap
-
+import traceback
 
 ## get all adapters
 adapters = ifaddr.get_adapters()
@@ -28,10 +28,12 @@ for adapter in adapters:
         print(count, ".", count2, " Network",  ip.nice_name, "with IP address of ", ip.ip, "/", ip.network_prefix )
 
 
-exit()
 
 valid = False
 tries = 0
+adpt_choice = int()
+net_choice = int()
+
 ## double check their answer to see if we can select an interface based on it
 while tries < 3 and valid == False:
     try:
@@ -39,22 +41,30 @@ while tries < 3 and valid == False:
         adpt_choice = int(input())
         print("You chose ", adpt_choice)
         if adpt_choice > 0 and adpt_choice <= len(adapters):
-            print("Will now attempt to enumerate network devices for ", adapters[adpt_choice].nice_name)
-            print("the details of that adapter are: ")
-            print(adapters[adpt_choice].ips[0].ip)
-            print(adapters[adpt_choice].ips[0].network_prefix)
-            print(adapters[adpt_choice].ips[0].nice_name)
-            chosen_ip = adapters[adpt_choice].ips[0].ip
-            chosen_prefix = adapters[adpt_choice].ips[0].network_prefix
-            valid = True
+            print("Choose a network on that adapter")
+            net_choice = int(input())
+            if net_choice > 0 and net_choice <= len(adapter.ips):
+                print("You have selected", adapter.ips[net_choice])
+                print("Will now attempt to enumerate network devices for ", adapters[adpt_choice].nice_name)
+                print("the details of that adapter are: ")
+                print(adapters[adpt_choice].ips[net_choice].ip)
+                print(adapters[adpt_choice].ips[net_choice].network_prefix)
+                print(adapters[adpt_choice].ips[net_choice].nice_name)
+                chosen_ip = adapters[adpt_choice].ips[net_choice].ip
+                chosen_prefix = adapters[adpt_choice].ips[net_choice].network_prefix
+                valid = True
+            else:
+                print("Sorry that was out of range")
         else:
             tries = tries + 1
             print("Sorry, that was outside the range of interfaces you have. Please double check the given list.", tries)
 
-    except:
+    except Exception:
         tries = tries + 1
+        print(traceback.print_exc())
         print("Sorry that was not a number. ", tries)
 
+exit()
 
 
 ## get ip details of the interface
