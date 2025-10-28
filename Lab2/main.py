@@ -1,5 +1,6 @@
 import os
 from ping3 import ping, verbose_ping
+import ping3
 import ifaddr
 import ipaddress
 from ipaddress import IPv4Network, ip_network
@@ -11,23 +12,22 @@ import concurrent.futures
 import subprocess
 import nmap
 import traceback
-'''
+
+
 ## get all adapters
 adapters = ifaddr.get_adapters()
-count = int(0)
-count2 = int(0)
+counter = int(0)
+counter2 = int(0)
 
 ## print details nicely
 for adapter in adapters:
     print("\n")
-    print(count, " - Adapter '", adapter.nice_name, "' number",  "has the following networks associated with it:")
-    count = count + 1
-    count2 = 0
+    print(counter, " - Adapter '", adapter.nice_name, "' number",  "has the following networks associated with it:")
+    counter = counter + 1
+    counter2 = 0
     for ip in adapter.ips:
-        print(count, ".", count2, " Network",  ip.nice_name, "with IP address of ", ip.ip, "/", ip.network_prefix )
-        count2 = count2 + 1
-
-
+        print(counter, ".", counter2, " Network",  ip.nice_name, "with IP address of ", ip.ip, "/", ip.network_prefix )
+        counter2 = counter2 + 1
 
 valid = False
 tries = 0
@@ -79,7 +79,7 @@ print(interface_ip_address)
 
 range = ip_network(ip_address_combined, strict=False)
 print(range)
-'''
+
 ## ping all addresses in space
 range = ip_network('192.168.7.0/24')
 ## turn network subnet into a actual list of the range
@@ -90,94 +90,28 @@ print(addresses[0])
 
 updevices = []
 
+ping3.Exceptions = True
 ## iterate, print IPs
 for address in addresses:
     print(address)
     print(type(address))
     stringip = str(address)
-    print(stringip)
-    result = ping(stringip, size = 1, timeout=1)
-    
+    result = ping(stringip, size=1, timeout=1) ## count=1 not recognized unless verbose
+    print("result of ping for ", stringip, "is", result, "with a type of ", type(result))
     ## add pingable devices to list
-    if result != True:
-        print("No device found at", stringip)
-    elif result == False:
-        print("Device found at ", stringip)
+    if result is None:
+        print("No device found at", stringip, "Since output is ", result)
+    elif result is False:
+       print("Also a fail since output is ", result)
+    else:
+        print("Device found at ", stringip, "Since output is ", result)
         updevices.append(stringip)
+        print('')
 
-
-
-exit()
-
-
-
-
-
-
-
-
-exit()
+print("final list of devices up", updevices)
 
 
 '''
-the dump
-
-
-nm = nmap.PortScanner()
-
-#https://xael.org/pages/python-nmap-en.html
-nm.scan(hosts='192.168.7.0/24')
-hosts_list = [(x, nm[x]['status']['state']) for x in nm.all_hosts()]
-for host, status in hosts_list:
-    print("scanning")
-    print('{0}:{1}'.format(host, status))
-    print("Sending to list")
-
-    for address in addresses:
-    print("scanning", address)
-    nm.scan(str(address))
-
-    
-## iterate, print IPs
-for address in addresses:
-    print(address)
-    print(type(address))
-    stringip = str(address)
-    print(stringip)
-    ##result = verbose_ping(stringip)
-    ping = ('ping', '-n', '1', '-l', '1', str(address) )
-    print("ping is ", ping)
-    result = subprocess.run([ping], shell=True, check=True, capture_output=True)
-    
-    ## add pingable devices to list
-    if result != True:
-        print("No device found at", stringip)
-    elif result == False:
-        print("Device found at ", stringip)
-        updevices.append(stringip)
-    
-exit()
-nm.all_hosts()
-print(type(adapters))
-print(adapters[2])
-print(adapters[2].ips)
-print(adapters[2].ips[0])
-print(adapters[2].ips[0].ip)
-print(adapters[2].ips[0].network_prefix)
-print(adapters[2].ips[0].nice_name)
-while tries < 3 and valid == False:
-    try:
-        print("which network on that adapter would you like to choose?")
-        print("your options are ", adapters[adpt_choice])
-        print("Enter a number between ", len(adapters[adpt_choice]))
-        input_net = input()
-        if input_net > -1 and input_net <= len(adapters[adpt_choice].ips):
-            print("you selected", adapters[adpt_choice].ips[input_net])
-        valid = True
-    except:
-        print("Sorry that's not a valid network adapter")
-        
-            ## Read details of show interface brief
     try:
         with open("./showipconfig.txt") as file:
             ## parse the file
