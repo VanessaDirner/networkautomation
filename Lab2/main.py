@@ -22,10 +22,10 @@ for adapter in adapters:
     print("\n")
     count = count + 1
     count2 = 0
-    print("Adapter '", adapter.nice_name, "' number", count, "has the following networks associated with it:")
+    print(count, " - Adapter '", adapter.nice_name, "' number",  "has the following networks associated with it:")
     for ip in adapter.ips:
         count2 = count2 + 1
-        print( ip.nice_name, "with IP address of ", ip.ip, "/", ip.network_prefix, "for network number", count2, "of adapter number", count)
+        print(count, ".", count2, " Network",  ip.nice_name, "with IP address of ", ip.ip, "/", ip.network_prefix )
 
 
 exit()
