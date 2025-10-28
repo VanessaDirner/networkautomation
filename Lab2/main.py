@@ -16,18 +16,19 @@ import traceback
 
 ## get all adapters
 adapters = ifaddr.get_adapters()
-counter = int(0)
-counter2 = int(0)
+counter = int(-1)
+counter2 = int(-1)
 
 ## print details nicely
 for adapter in adapters:
     print("\n")
-    print(counter, " - Adapter '", adapter.nice_name, "' number",  "has the following networks associated with it:")
     counter = counter + 1
-    counter2 = 0
+    print(counter, " - Adapter '", adapter.nice_name, "' number",  "has the following networks associated with it:")
+    counter2 = -1
     for ip in adapter.ips:
-        print(counter, ".", counter2, " Network",  ip.nice_name, "with IP address of ", ip.ip, "/", ip.network_prefix )
         counter2 = counter2 + 1
+        print(counter, ".", counter2, " Network",  ip.nice_name, "with IP address of ", ip.ip, "/", ip.network_prefix )
+
 
 valid = False
 tries = 0
@@ -72,7 +73,13 @@ while tries < 3 and valid == False:
 ip_address_combined = f"{chosen_ip}/{chosen_prefix}"
 print(ip_address_combined)
 print(type(ip_address_combined))
-interface_ip_address = ipaddress.IPv4Address(chosen_ip)
+
+try:
+    interface_ip_address = ipaddress.IPv4Address(chosen_ip)
+except:
+    print("Sorry, it's likely you picked a non valid IP address range to ping from an adapter. Exiting...")
+    exit()
+
 print(interface_ip_address)
 ## get network address from ip address
 
@@ -109,6 +116,11 @@ for address in addresses:
         print('')
 
 print("final list of devices up", updevices)
+
+## temp for testing
+updevices = ['192.168.7.1', '192.168.7.2', '192.168.7.3', '192.168.7.11', '192.168.7.12', '192.168.7.13', '192.168.7.14', '192.168.7.15', '192.168.7.140']
+##is ['192.168.7.1', '192.168.7.2', '192.168.7.3', '192.168.7.11', '192.168.7.12', '192.168.7.13', '192.168.7.14', '192.168.7.15', '192.168.7.140']
+
 
 
 '''
