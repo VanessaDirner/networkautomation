@@ -12,7 +12,8 @@ import concurrent.futures
 import subprocess
 import nmap
 import traceback
-
+from netmiko import ConnectHandler
+from getpass import getpass
 
 ## get all adapters
 adapters = ifaddr.get_adapters()
@@ -134,7 +135,14 @@ print("final list of devices up", updevices)
 updevices = ['192.168.7.1', '192.168.7.2', '192.168.7.3', '192.168.7.11', '192.168.7.12', '192.168.7.13', '192.168.7.14', '192.168.7.15', '192.168.7.140']
 ##is ['192.168.7.1', '192.168.7.2', '192.168.7.3', '192.168.7.11', '192.168.7.12', '192.168.7.13', '192.168.7.14', '192.168.7.15', '192.168.7.140']
 
+host_address = updevices[1]
 
+ciscoTemplate = {
+    'device_type': 'cisco_ios',
+    'host':  host_address,
+    'username':'cisco',
+    'password':'cisco'
+}
 
 
 '''
