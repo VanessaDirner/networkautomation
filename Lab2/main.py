@@ -11,7 +11,7 @@ import concurrent.futures
 import subprocess
 import nmap
 import traceback
-
+'''
 ## get all adapters
 adapters = ifaddr.get_adapters()
 count = int(0)
@@ -56,16 +56,14 @@ while tries < 3 and valid == False:
             chosen_ip = adapters[adpt_choice].ips[net_choice].ip
             chosen_prefix = adapters[adpt_choice].ips[net_choice].network_prefix
             valid = True
-            print("Will now attempt to enumerate network devices on that network. Tries:", tries)
+            print("Will now attempt to enumerate network devices on that network.")
         else:
-            print("Sorry that was out of range of networks on that interface.")
+            print("Sorry that was out of range of networks on that interface.  Tries:", tries)
 
     except Exception:
         tries = tries + 1
         print(traceback.print_exc())
         print("Sorry that was not a number. ", tries)
-
-exit()
 
 
 ## get ip details of the interface
@@ -81,9 +79,9 @@ print(interface_ip_address)
 
 range = ip_network(ip_address_combined, strict=False)
 print(range)
-
+'''
 ## ping all addresses in space
-##range = ip_network('192.168.7.0/24')
+range = ip_network('192.168.7.0/24')
 ## turn network subnet into a actual list of the range
 addresses = list(range.hosts())
 
@@ -91,6 +89,39 @@ addresses = list(range.hosts())
 print(addresses[0])
 
 updevices = []
+
+## iterate, print IPs
+for address in addresses:
+    print(address)
+    print(type(address))
+    stringip = str(address)
+    print(stringip)
+    result = ping(stringip, size = 1, timeout=1)
+    
+    ## add pingable devices to list
+    if result != True:
+        print("No device found at", stringip)
+    elif result == False:
+        print("Device found at ", stringip)
+        updevices.append(stringip)
+
+
+
+exit()
+
+
+
+
+
+
+
+
+exit()
+
+
+'''
+the dump
+
 
 nm = nmap.PortScanner()
 
@@ -102,24 +133,21 @@ for host, status in hosts_list:
     print('{0}:{1}'.format(host, status))
     print("Sending to list")
 
-exit()
-nm.all_hosts()
-
-
-for address in addresses:
+    for address in addresses:
     print("scanning", address)
     nm.scan(str(address))
 
-
-
-exit()
+    
 ## iterate, print IPs
 for address in addresses:
     print(address)
     print(type(address))
     stringip = str(address)
     print(stringip)
-    result = verbose_ping(stringip)
+    ##result = verbose_ping(stringip)
+    ping = ('ping', '-n', '1', '-l', '1', str(address) )
+    print("ping is ", ping)
+    result = subprocess.run([ping], shell=True, check=True, capture_output=True)
     
     ## add pingable devices to list
     if result != True:
@@ -127,34 +155,9 @@ for address in addresses:
     elif result == False:
         print("Device found at ", stringip)
         updevices.append(stringip)
-
-
-
-print("pinging")
-
-a = ping(stringip)
-
-print(a)
-
+    
 exit()
-
-
-print("pinging")
-
-a = ping('192.168.7.11')
-
-b = ping('192.168.7.12')
-
-c = ping('192.168.7.13')
-
-d = ping('192.168.7.15')
-
-print(a,b,c,d)
-
-exit()
-
-
-'''
+nm.all_hosts()
 print(type(adapters))
 print(adapters[2])
 print(adapters[2].ips)
