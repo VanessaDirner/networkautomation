@@ -39,25 +39,26 @@ while tries < 3 and valid == False:
     try:
         print("choose an adapter to check devices on")
         adpt_choice = int(input())
-        print("You chose ", adpt_choice)
-        if adpt_choice > 0 and adpt_choice <= len(adapters):
+        print("You chose ", adpt_choice, "which is ", adapters[adpt_choice].nice_name)
+        if adpt_choice > -1 and adpt_choice <= len(adapters):
             print("Choose a network on that adapter")
             net_choice = int(input())
-            if net_choice > 0 and net_choice <= len(adapter.ips):
-                print("You have selected", adapter.ips[net_choice])
-                print("Will now attempt to enumerate network devices for ", adapters[adpt_choice].nice_name)
-                print("the details of that adapter are: ")
-                print(adapters[adpt_choice].ips[net_choice].ip)
-                print(adapters[adpt_choice].ips[net_choice].network_prefix)
-                print(adapters[adpt_choice].ips[net_choice].nice_name)
-                chosen_ip = adapters[adpt_choice].ips[net_choice].ip
-                chosen_prefix = adapters[adpt_choice].ips[net_choice].network_prefix
-                valid = True
-            else:
-                print("Sorry that was out of range")
         else:
             tries = tries + 1
-            print("Sorry, that was outside the range of interfaces you have. Please double check the given list.", tries)
+            print("Sorry, that was outside the range of interfaces you have. Please double check the given list. Tries:", tries)
+
+        if net_choice > -1 and net_choice <= len(adapter.ips):
+            print("You have selected", adapter.ips[net_choice].nice_name, "on ", adapters[adpt_choice].nice_name)
+            print("the details of that adapter are: ")
+            print(adapters[adpt_choice].ips[net_choice].ip)
+            print(adapters[adpt_choice].ips[net_choice].network_prefix)
+            print(adapters[adpt_choice].ips[net_choice].nice_name)
+            chosen_ip = adapters[adpt_choice].ips[net_choice].ip
+            chosen_prefix = adapters[adpt_choice].ips[net_choice].network_prefix
+            valid = True
+            print("Will now attempt to enumerate network devices on that network. Tries:", tries)
+        else:
+            print("Sorry that was out of range of networks on that interface.")
 
     except Exception:
         tries = tries + 1
