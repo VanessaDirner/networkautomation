@@ -20,12 +20,12 @@ count2 = int(0)
 ## print details nicely
 for adapter in adapters:
     print("\n")
+    print(count, " - Adapter '", adapter.nice_name, "' number",  "has the following networks associated with it:")
     count = count + 1
     count2 = 0
-    print(count, " - Adapter '", adapter.nice_name, "' number",  "has the following networks associated with it:")
     for ip in adapter.ips:
-        count2 = count2 + 1
         print(count, ".", count2, " Network",  ip.nice_name, "with IP address of ", ip.ip, "/", ip.network_prefix )
+        count2 = count2 + 1
 
 
 
@@ -41,7 +41,7 @@ while tries < 3 and valid == False:
         adpt_choice = int(input())
         print("You chose ", adpt_choice, "which is ", adapters[adpt_choice].nice_name)
         if adpt_choice > -1 and adpt_choice <= len(adapters):
-            print("Choose a network on that adapter")
+            print("Choose a network on that adapter: ")
             net_choice = int(input())
         else:
             tries = tries + 1
