@@ -10,18 +10,25 @@ import threading
 import concurrent.futures
 import subprocess
 import nmap
-'''
+
+
 ## get all adapters
 adapters = ifaddr.get_adapters()
+count = int(0)
+count2 = int(0)
 
 ## print details nicely
 for adapter in adapters:
-    print(adapter.nice_name) 
+    print("\n")
+    count = count + 1
+    count2 = 0
+    print("Adapter '", adapter.nice_name, "' number", count, "has the following networks associated with it:")
     for ip in adapter.ips:
-        print(ip.ip)
-        print(ip.network_prefix)
-        print(ip.nice_name)
+        count2 = count2 + 1
+        print( ip.nice_name, "with IP address of ", ip.ip, "/", ip.network_prefix, "for network number", count2, "of adapter number", count)
 
+
+exit()
 
 valid = False
 tries = 0
@@ -73,7 +80,7 @@ addresses = list(range.hosts())
 print(addresses[0])
 
 updevices = []
-'''
+
 nm = nmap.PortScanner()
 
 #https://xael.org/pages/python-nmap-en.html
@@ -156,5 +163,43 @@ while tries < 3 and valid == False:
     except:
         print("Sorry that's not a valid network adapter")
         
+            ## Read details of show interface brief
+    try:
+        with open("./showipconfig.txt") as file:
+            ## parse the file
+            ## separate out the lines
+            ## read specific parts of lines
+            ## skip the first line and assign each line the name of the first string in the line "vlan1"
+            
+            ## https://www.youtube.com/watch?v=ZLCZkMk69y0 how to read a line
+        
+            lines = file.readlines()
+            file.close
 
+    except:
+        print("failed to read file. Please check if the showipconfix.txt file is in the Lab1pythonfolder. If it is, change your running directory to Lab1pythonfolder. Thanks! :)")
+        return False
+    else:
+        print("Read of file succesful.")
+  
+    ipconfigArray = []
+    total_lines = len(lines)
+    ## append to an easier to handle data object to read to later
+    for line in lines:
+        print(line)
+        ipconfigArray.append(line)
+
+            ## Tell the user the details of the saved configuration
+    print("your final configuration details are: \n",
+          fullconfiguration)
+    
+    ## save all details to a file
+    filename = "CiscoRouterConfig.txt"
+
+    print("saving configuration to ", filename)
+
+    ## overwrite existing content - we don't need more than 1 set of config
+    with open(filename, "w") as f:
+        f.write(fullconfiguration)
 '''
+
