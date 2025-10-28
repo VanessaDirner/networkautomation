@@ -80,6 +80,19 @@ except:
     print("Sorry, it's likely you picked a non valid IP address range to ping from an adapter. Exiting...")
     exit()
 
+if interface_ip_address.is_loopback:
+    print("Sorry this is a loopback address. Cannot ping. Exiting...")
+    exit()
+elif interface_ip_address.is_unspecified:
+    print("Sorry this is an unspecified address. Exiting...")
+    exit()
+elif interface_ip_address.is_link_local:
+    print("Sorry this is a link local address. Exiting...")
+    exit()
+elif interface_ip_address in ipaddress.ip_network("169.254.0.0/16"):
+    print("Sorry you picked an apipa address. Exiting...")
+    exit()
+
 print(interface_ip_address)
 ## get network address from ip address
 
@@ -88,7 +101,7 @@ range = ip_network(ip_address_combined, strict=False)
 print(range)
 
 ## ping all addresses in space
-range = ip_network('192.168.7.0/24')
+## for testing only ##range = ip_network('192.168.7.0/24')
 ## turn network subnet into a actual list of the range
 addresses = list(range.hosts())
 
@@ -120,6 +133,7 @@ print("final list of devices up", updevices)
 ## temp for testing
 updevices = ['192.168.7.1', '192.168.7.2', '192.168.7.3', '192.168.7.11', '192.168.7.12', '192.168.7.13', '192.168.7.14', '192.168.7.15', '192.168.7.140']
 ##is ['192.168.7.1', '192.168.7.2', '192.168.7.3', '192.168.7.11', '192.168.7.12', '192.168.7.13', '192.168.7.14', '192.168.7.15', '192.168.7.140']
+
 
 
 
