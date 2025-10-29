@@ -21,13 +21,12 @@ ciscoTemplate = {
     'password':'cisco'
 }
 
+all = len(updevices) + 1
 
 while quit != True:
-
- 
-
         ##Prompt a User to input an IP Address for a Network Device in the Rack
-        print("Which device would you like to connect to. Your options are between 0 and ", len(updevices))
+        print("Which device would you like to connect to. To select an individual device, your options are between 0 and ", len(updevices))
+        print("To select all devices, enter", all)
         print("Enter -1 to quit.")
 
         devicechoice = input()
@@ -47,6 +46,8 @@ while quit != True:
                 print("loading configuration..", updevices[devicechoice], "succesfully")
                 selecteddevice = updevices[devicechoice]
                 gotob = True
+            elif(devicechoice == all):
+                print("You selected all. Preparing devices")
             else:
                 print("You didn't select one of the options. Enter an option between 1 and ", len(updevices) , "Try again")
         except:
@@ -77,28 +78,28 @@ while quit != True:
 
         if failed == False:
             print("displayed basic device information above succesfully. What other details would you like to see? " \
-            "Your options are: 1 - IP Interface Brief, 2 - Show IP OSPF Neighbor, 3 - Show Running Configuration" \
-            "Enter 1 2 or 3 as your option. You can enter 0 to quit.")
+            "Your options are: 0 - Show Running Configuration : 1 - Reload Device" \
+            "Enter 0 or 1 as your option. You can enter -1 to quit.")
             
 
             #Prompt user to save the following information to appropriately named files
-            #Interface information (show ip interface brief)
-            #OSPF Neighbor Information (show ip ospf neighbor)
+            #Reload device
             #Running configuration file (show running-config)
             outoption = input()
 
             try:
                 if outoption == '0':            
                     print("You selected 0 succesfully.")
-                    ipintbr = net_connect.send_command('show running-config')
-                    print(ipintbr)
-                    print("Printed details succesfully.")
+                    #print(ipintbr)
+                    #print("Printed details succesfully.")
                     try:
+                        ipintbr = net_connect.send_command('show running-config')
                         print("Now saving running configuration to a file")
                         with open("ipintbr.txt", "w") as f:
                             f.write(ipintbr)
                     except:
                         print("Failed to print to file")
+
                 elif outoption == '1':
                     print("You selected 1 succesfully.")
                     runconf = net_connect.send_command('show running-config')
@@ -110,11 +111,12 @@ while quit != True:
                             f.write(runconf)
                     except:
                         print("Failed to print to file")
-                elif outoption == '0':
+
+                elif outoption == '-1':
                     print("quitting")
                     exit()
                 else:
-                    print("Sorry, was looking for 1, 2 or 3 for selecting a cisco device output")
+                    print("Sorry, was looking for -1, 0 or 1 for selecting a cisco device output")
             except:
                 print("Failed to read input.")
 
