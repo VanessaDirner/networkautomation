@@ -137,13 +137,6 @@ updevices = ['192.168.7.1', '192.168.7.2', '192.168.7.3', '192.168.7.11', '192.1
 
 host_address = updevices[1]
 
-ciscoTemplate = {
-    'device_type': 'cisco_ios',
-    'host':  host_address,
-    'username':'cisco',
-    'password':'cisco'
-}
-
 
 '''
     try:
