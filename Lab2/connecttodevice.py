@@ -21,6 +21,8 @@ ciscoTemplate = {
     'password':'cisco'
 }
 
+
+
 all = len(updevices) + 1
 
 while quit != True:
@@ -41,11 +43,10 @@ while quit != True:
                 print("quit entered, quitting.")
                 quit = True
                 exit()
-            elif(devicechoice > -1 and devicechoice < len(updevices)):
+            elif(devicechoice > -1 and devicechoice <= len(updevices)):
                 print("You selected ", devicechoice)
                 print("loading configuration..", updevices[devicechoice], "succesfully")
                 selecteddevice = updevices[devicechoice]
-                gotob = True
             elif(devicechoice == all):
                 print("You selected all. Preparing devices")
             else:
@@ -53,23 +54,32 @@ while quit != True:
         except:
             print("Failed to get details about device choice.")
     
-        print("Enter 0 to quit now. Enter anything else to continue")
+        print("Enter -1 to quit now. Enter anything else to continue")
         leave = input()
-        if leave == '0':
-            print("0 was entered, quitting.")
+        if leave == '-1':
+            print("-1 was entered, quitting.")
             quit = True
             exit()
         print("Continuing.")   
         failed = False
         try:
-            ##Connect to the Network Device, and display the following information
-            print("In loop....")
-            print("Template is:", ciscoTemplate)
-            debug_a = net_connect = ConnectHandler(**ciscoTemplate)
-            print(debug_a)
-            net_connect.enable() 
-            print(net_connect.find_prompt())
+            if devicechoice > -1 and devicechoice <= len(updevices):
+                ##Connect to the Network Device, and display the following information
+                print("Template is:", ciscoTemplate)
+                debug_a = net_connect = ConnectHandler(**ciscoTemplate)
+                print(debug_a)
+                net_connect.enable() 
+                print(net_connect.find_prompt())
             ##Display the active Hostname of the Device
+            if devicechoice == all:
+                for device in updevices:
+                    ##Connect to the Network Device, and display the following information
+                    devicechoice = device
+                    print("Template is:", ciscoTemplate)
+                    debug_a = net_connect = ConnectHandler(**ciscoTemplate)
+                    print(debug_a)
+                    net_connect.enable() 
+                    print(net_connect.find_prompt()) 
         except:
             print("Failed to connect and enumerate details of device." \
             "Since the device cannot be connected to, will not continue. Quitting.")
