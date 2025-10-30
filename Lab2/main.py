@@ -1,26 +1,15 @@
-import os
 from ping3 import ping, verbose_ping
-import ping3
-import ifaddr
-import ipaddress
 from ipaddress import IPv4Network, ip_network
-import time
-import json
-import scapy
-import threading
-import concurrent.futures
-import subprocess
-import nmap
-import traceback
 from netmiko import ConnectHandler
 from getpass import getpass
 
-
 import getadapters
 import getdevices
-import connecttodevice
+##import connecttodevice
 
-
+print("starting")
 ip_address_combined = getadapters.adapterdetails()
+print("done first module")
+listofIPs = getdevices.getallIPs(ip_address_combined)
 
-getdevices(ip_address_combined)
+#b = connecttodevice

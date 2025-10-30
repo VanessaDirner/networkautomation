@@ -4,11 +4,9 @@ from ipaddress import IPv4Network, ip_network
 from netmiko import ConnectHandler
 from getpass import getpass
 
-def getallIPs(interface_ip_address):
-    print(interface_ip_address)
+def getallIPs(ip_address_combined):
+
     ## get network address from ip address
-
-
     range = ip_network(ip_address_combined, strict=False)
     print(range)
 
@@ -34,7 +32,7 @@ def getallIPs(interface_ip_address):
         if result is None:
             print("No device found at", stringip, "Since output is ", result)
         elif result is False:
-        print("Also a fail since output is ", result)
+            print("Also a fail since output is ", result)
         else:
             print("Device found at ", stringip, "Since output is ", result)
             updevices.append(stringip)
