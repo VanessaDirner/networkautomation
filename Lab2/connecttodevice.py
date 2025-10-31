@@ -69,9 +69,11 @@ def choice(updevices):
             exit()
         print("Continuing.")   
         failed = False
-    return False
+    return devicechoice
 
 def connecting(updevice):
+    devicechoice = choice(updevice)
+
     # selected_template = ciscotemplates[countdevice]
     tmp_template = {
     "device_type": "cisco_ios",
@@ -80,20 +82,21 @@ def connecting(updevice):
     "password": "cisco"
                     }
 
-    debug_a = net_connect = ConnectHandler(**tmp_template)
-    print(debug_a)
-
-    try:
-        net_connect.enable() 
-        print(net_connect.find_prompt())
-    except:
-        print("device did not connect, moving on.")
-
     countdevice = 0
     if devicechoice == all:
         for device in updevices:
             print("todo")
             countdevice = countdevice + 1
+    else:
+        debug_a = net_connect = ConnectHandler(**tmp_template)
+        print(debug_a)
+        try:
+            net_connect.enable() 
+            print(net_connect.find_prompt())
+        except:
+            print("device did not connect, moving on.")
+
+
 
 
 updevices = ['192.168.7.1', '192.168.7.2', '192.168.7.3', '192.168.7.11', '192.168.7.12', '192.168.7.13', '192.168.7.14', '192.168.7.15', '192.168.7.140', '192.168.7.1', '192.168.7.101', '192.168.7.110', '192.168.7.140']
