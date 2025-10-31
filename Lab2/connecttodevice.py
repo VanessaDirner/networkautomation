@@ -60,38 +60,12 @@ def connecting(updevices):
                 if devicechoice == len(updevices):
                     print("in devicechoice loop since all selected")
                     for device in updevices:
-                        ##Connect to the Network Device, and display the following information
-                        devicechoice = device
-                        print("Device is:", device)
-                        ciscoTemplate = {
-                            'device_type': 'cisco_ios',
-                            'host':  updevices[devicechoice],
-                            'username':'cisco',
-                            'password':'cisco'
-                        }
-                        print("Template is:", ciscoTemplate)
-                        try:
-                            debug_a = net_connect = ConnectHandler(**ciscoTemplate)
-                            print(debug_a)
-                            net_connect.enable() 
-                            print(net_connect.find_prompt()) 
-                        except:
-                            print("")
-                else:
-                    ciscoTemplate = {
-                        'device_type': 'cisco_ios',
-                        'host':  updevices[devicechoice],
-                        'username':'cisco',
-                        'password':'cisco'
-                    }
                     ##Connect to the Network Device, and display the following information
-                    try:
                         print("Template is:", ciscoTemplate)
                         debug_a = net_connect = ConnectHandler(**ciscoTemplate)
                         print(debug_a)
                         net_connect.enable() 
                         print(net_connect.find_prompt())
-                    except:
             except:
                 print("Failed to connect and enumerate details of device", updevices[devicechoice])
                 failed = True

@@ -3,20 +3,23 @@ from ipaddress import IPv4Network, ip_network
 from netmiko import ConnectHandler
 from getpass import getpass
 
-import getadapters
-import getdevices
-import connecttodevice
+# import getadapters
+# import getdevices
+# import connecttodevice
+import savetemplates
 
-'''
-print("starting")
-ip_address_combined = getadapters.adapterdetails()
-print("done first module")
-updevices = getdevices.getallIPs(ip_address_combined)
-print("done second module, onto next...")
-'''
+def connect():
+        '''
+        print("starting")
+        ip_address_combined = getadapters.adapterdetails()
+        print("done first module")
+        updevices = getdevices.getallIPs(ip_address_combined)
+        print("done second module, onto next...")
+        '''
 
 
-updevices = ['192.168.7.1', '192.168.7.2', '192.168.7.3', '192.168.7.11', '192.168.7.12', '192.168.7.13', '192.168.7.14', '192.168.7.15', '192.168.7.140', '192.168.7.1', '192.168.7.101', '192.168.7.110', '192.168.7.140']
-
-b = connecttodevice.connecting(updevices)
-print("Done last module")
+        updevices = ['192.168.7.1', '192.168.7.2', '192.168.7.3', '192.168.7.11', '192.168.7.12', '192.168.7.13', '192.168.7.14', '192.168.7.15', '192.168.7.140', '192.168.7.1', '192.168.7.101', '192.168.7.110', '192.168.7.140']
+        result = savetemplates.saving(updevices)
+        print(result)
+        # b = connecttodevice.connecting(updevices)
+        # print("Done last module")
