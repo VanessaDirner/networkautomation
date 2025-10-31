@@ -1,6 +1,7 @@
 from netmiko import ConnectHandler
 from getpass import getpass
 import os
+import json
 
 def gettemplates(updevices):
     
@@ -16,8 +17,8 @@ def gettemplates(updevices):
         filename = f"C:\\Users\\Vanessa\\Documents\\GitHub\\networkautomation\\Lab2\\templates\\{file}"
         print("filename is ", filename)
         f = open(filename)
-        input = f.read()
-        ciscotemplates.append(input)
+        data = json.load(f)
+        ciscotemplates.append(data)
         print(ciscotemplates[counter])
         counter = counter + 1
 
@@ -36,30 +37,30 @@ def connecting(updevices):
 
     all = len(updevices) + 1
 
-        ##Prompt a User to input an IP Address for a Network Device in the Rack
-        print("Which device would you like to connect to. To select an individual device, your options are between 0 and ", len(updevices))
-        print("To select all devices, enter", all)
-        print("Enter -1 to quit.")
+    ##Prompt a User to input an IP Address for a Network Device in the Rack
+    print("Which device would you like to connect to. To select an individual device, your options are between 0 and ", len(updevices))
+    print("To select all devices, enter", all)
+    print("Enter -1 to quit.")
 
-        devicechoice = int(input())
-        ##Validate the IP Address entered works for your Rack or series of devices
-        try:
-            ## quit value
-            if (devicechoice == "-1"):
-                print("You entered: ", devicechoice , ", to quit, succesfully")
-                print("quit entered, quitting.")
-                quit = True
-                exit()
-            elif(devicechoice >= 0 and devicechoice <= len(updevices)):
-                print("You selected ", devicechoice)
-                print("loading configuration..", updevices[devicechoice], "succesfully")
-            elif(all):
-                print("You selected all. Preparing devices")
-            else:
-                print("You didn't select one of the options. Enter an option between 1 and ", len(updevices) , "Try again")
-        except Exception as e:
-            print("Failed to get details about device choice.")
-            print(e)
+    devicechoice = int(input())
+    ##Validate the IP Address entered works for your Rack or series of devices
+    try:
+        ## quit value
+        if (devicechoice == "-1"):
+            print("You entered: ", devicechoice , ", to quit, succesfully")
+            print("quit entered, quitting.")
+            quit = True
+            exit()
+        elif(devicechoice >= 0 and devicechoice <= len(updevices)):
+            print("You selected ", devicechoice)
+            print("loading configuration..", updevices[devicechoice], "succesfully")
+        elif(all):
+            print("You selected all. Preparing devices")
+        else:
+            print("You didn't select one of the options. Enter an option between 1 and ", len(updevices) , "Try again")
+    except Exception as e:
+        print("Failed to get details about device choice.")
+        print(e)
     
         print("Enter -1 to quit now. Enter anything else to continue")
         leave = input()
@@ -70,11 +71,15 @@ def connecting(updevices):
         print("Continuing.")   
         failed = False
 
+    countdevice = 0
     for device in updevices:
-        debug_a = net_connect = ConnectHandler(**ciscotemplates[device])
+        selected_template = ciscotemplates[countdevice]
+        debug_a = net_connect = ConnectHandler(**selected_template)
         print(debug_a)
+        countdevice = countdevice + 1
         net_connect.enable() 
         print(net_connect.find_prompt())
+
 
 
 updevices = ['192.168.7.1', '192.168.7.2', '192.168.7.3', '192.168.7.11', '192.168.7.12', '192.168.7.13', '192.168.7.14', '192.168.7.15', '192.168.7.140', '192.168.7.1', '192.168.7.101', '192.168.7.110', '192.168.7.140']
