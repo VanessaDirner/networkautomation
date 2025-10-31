@@ -1,74 +1,86 @@
 from netmiko import ConnectHandler
 from getpass import getpass
+import os
+
+def gettemplates(updevices):
+    
+    ciscotemplates = []
+
+    files = os.listdir("./templates")
+    print(files)
+    counter = 0
+
+    ## get all templates
+    for file in files:
+        print("file is ",file)
+        filename = f"C:\\Users\\Vanessa\\Documents\\GitHub\\networkautomation\\Lab2\\templates\\{file}"
+        print("filename is ", filename)
+        f = open(filename)
+        input = f.read()
+        ciscotemplates.append(input)
+        print(ciscotemplates[counter])
+        counter = counter + 1
+
+    print("HIIIIIII")
+
+    return ciscotemplates
+
 
 
 def connecting(updevices):
-        
-    quit = False
 
-    rack = 7
-
-    ## save configs all separately because simplicity/not the focus of this LAb
-
-
+    ciscotemplates = gettemplates(updevices)
+    print("Started connecting module...")
     ## temp for testing
     ##updevices = ['192.168.7.1', '192.168.7.2', '192.168.7.3', '192.168.7.11', '192.168.7.12', '192.168.7.13', '192.168.7.14', '192.168.7.15', '192.168.7.140']
 
-
-
-
     all = len(updevices) + 1
 
-    while quit != True:
-            ##Prompt a User to input an IP Address for a Network Device in the Rack
-            print("Which device would you like to connect to. To select an individual device, your options are between 0 and ", len(updevices))
-            print("To select all devices, enter", all)
-            print("Enter -1 to quit.")
+        ##Prompt a User to input an IP Address for a Network Device in the Rack
+        print("Which device would you like to connect to. To select an individual device, your options are between 0 and ", len(updevices))
+        print("To select all devices, enter", all)
+        print("Enter -1 to quit.")
 
-            devicechoice = int(input())
-
-
-            ##print("now connecting to machine.", devices[1])
-            ##Validate the IP Address entered works for your Rack or series of devices
-            try:
-                ## quit value
-                if (devicechoice == "-1"):
-                    print("You entered: ", devicechoice , ", to quit, succesfully")
-                    print("quit entered, quitting.")
-                    quit = True
-                    exit()
-                elif(devicechoice > -1 and devicechoice < len(updevices)):
-                    print("You selected ", devicechoice)
-                    print("loading configuration..", updevices[devicechoice], "succesfully")
-                elif(devicechoice == len(updevices)):
-                    print("You selected all. Preparing devices")
-                else:
-                    print("You didn't select one of the options. Enter an option between 1 and ", len(updevices) , "Try again")
-            except Exception as e:
-                print("Failed to get details about device choice.")
-                print(e)
-        
-            print("Enter -1 to quit now. Enter anything else to continue")
-            leave = input()
-            if leave == '-1':
-                print("-1 was entered, quitting.")
+        devicechoice = int(input())
+        ##Validate the IP Address entered works for your Rack or series of devices
+        try:
+            ## quit value
+            if (devicechoice == "-1"):
+                print("You entered: ", devicechoice , ", to quit, succesfully")
+                print("quit entered, quitting.")
                 quit = True
                 exit()
-            print("Continuing.")   
-            failed = False
-            try:
-                if devicechoice == len(updevices):
-                    print("in devicechoice loop since all selected")
-                    for device in updevices:
-                    ##Connect to the Network Device, and display the following information
-                        print("Template is:", ciscoTemplate)
-                        debug_a = net_connect = ConnectHandler(**ciscoTemplate)
-                        print(debug_a)
-                        net_connect.enable() 
-                        print(net_connect.find_prompt())
-            except:
-                print("Failed to connect and enumerate details of device", updevices[devicechoice])
-                failed = True
+            elif(devicechoice >= 0 and devicechoice <= len(updevices)):
+                print("You selected ", devicechoice)
+                print("loading configuration..", updevices[devicechoice], "succesfully")
+            elif(all):
+                print("You selected all. Preparing devices")
+            else:
+                print("You didn't select one of the options. Enter an option between 1 and ", len(updevices) , "Try again")
+        except Exception as e:
+            print("Failed to get details about device choice.")
+            print(e)
+    
+        print("Enter -1 to quit now. Enter anything else to continue")
+        leave = input()
+        if leave == '-1':
+            print("-1 was entered, quitting.")
+            quit = True
+            exit()
+        print("Continuing.")   
+        failed = False
+
+    for device in updevices:
+        debug_a = net_connect = ConnectHandler(**ciscotemplates[device])
+        print(debug_a)
+        net_connect.enable() 
+        print(net_connect.find_prompt())
+
+
+updevices = ['192.168.7.1', '192.168.7.2', '192.168.7.3', '192.168.7.11', '192.168.7.12', '192.168.7.13', '192.168.7.14', '192.168.7.15', '192.168.7.140', '192.168.7.1', '192.168.7.101', '192.168.7.110', '192.168.7.140']
+ 
+connecting(updevices)
+
 
 '''
             if failed == False:
