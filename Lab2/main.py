@@ -3,9 +3,13 @@ from ipaddress import IPv4Network, ip_network
 from netmiko import ConnectHandler
 from getpass import getpass
 
+print("import getadapters")
 import getadapters
+print("Import getdevices")
 import getdevices
+print("import connecttodevice")
 import connecttodevice
+print("import savetemplates")
 import savetemplates
 
 
