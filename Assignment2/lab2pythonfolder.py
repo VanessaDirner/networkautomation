@@ -171,6 +171,8 @@ while quit != True:
             #Running configuration file (show running-config)
             outoption = input()
 
+        quit = False
+        while quit != False:
             try:
                 if outoption == '1':            
                     print("You selected 1 succesfully.")
@@ -215,7 +217,7 @@ while quit != True:
                     print("Sorry, was looking for 1, 2 or 3 for selecting a cisco device output")
             except:
                 print("Failed to read input.")
-
+            
 
             net_connect.disconnect()
 

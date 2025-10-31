@@ -69,18 +69,18 @@ def choice(updevices):
             exit()
         print("Continuing.")   
         failed = False
-    return devicechoice
+    return devicechoice, ciscotemplates
 
 def connecting(updevice):
-    devicechoice = choice(updevice)
+    devicechoice, ciscotemplates = choice(updevice)
 
-    # selected_template = ciscotemplates[countdevice]
-    tmp_template = {
-    "device_type": "cisco_ios",
-    "host": "192.168.7.14",
-    "username": "cisco",
-    "password": "cisco"
-                    }
+    selected_template = devicechoice
+    # tmp_template = {
+    # "device_type": "cisco_ios",
+    # "host": "192.168.7.14",
+    # "username": "cisco",
+    # "password": "cisco"
+    #                 }
 
     countdevice = 0
     if devicechoice == all:
@@ -88,7 +88,8 @@ def connecting(updevice):
             print("todo")
             countdevice = countdevice + 1
     else:
-        debug_a = net_connect = ConnectHandler(**tmp_template)
+        print("your connection details are",ciscotemplates[devicechoice])
+        debug_a = net_connect = ConnectHandler(**ciscotemplates[selected_template])
         print(debug_a)
         try:
             net_connect.enable() 
@@ -96,63 +97,62 @@ def connecting(updevice):
         except:
             print("device did not connect, moving on.")
 
+    
+    print("What  details would you like to see? " \
+    "Your options are: 0 - Show Running Configuration : 1 - Reload Device" \
+    "Enter 0 or 1 as your option. You can enter -1 to quit.")
+
+
+    #Prompt user to save the following information to appropriately named files
+    #Reload device
+    #Running configuration file (show running-config)
+    outoption = input()
+
+    try:
+        if outoption == '0':            
+            print("You selected 0 succesfully.")
+            #print(ipintbr)
+            #print("Printed details succesfully.")
+            try:
+                ipintbr = net_connect.send_command('show running-config')
+                print("Now saving running configuration to a file")
+                with open("ipintbr.txt", "w") as f:
+                    f.write(ipintbr)
+            except:
+                print("Failed to print to file")
+
+        elif outoption == '1':
+            print("You selected 1 succesfully.")
+            runconf = net_connect.send_command('show running-config')
+            print(runconf)
+            print("Printed details succesfully.")
+            try:
+                print("now saving runconf to a file")
+                with open("runconf.txt", "w") as f:
+                    f.write(runconf)
+            except:
+                print("Failed to print to file")
+
+        elif outoption == '-1':
+            print("quitting")
+            exit()
+        else:
+            print("Sorry, was looking for -1, 0 or 1 for selecting a cisco device output")
+    except:
+        print("Failed to read input.")
+
+
+        net_connect.disconnect()
+
+
+
+
+
+
+
 
 
 
 updevices = ['192.168.7.1', '192.168.7.2', '192.168.7.3', '192.168.7.11', '192.168.7.12', '192.168.7.13', '192.168.7.14', '192.168.7.15', '192.168.7.140', '192.168.7.1', '192.168.7.101', '192.168.7.110', '192.168.7.140']
  
 connecting(updevices)
-
-
-'''
-            if failed == False:
-                print("displayed basic device information above succesfully. What other details would you like to see? " \
-                "Your options are: 0 - Show Running Configuration : 1 - Reload Device" \
-                "Enter 0 or 1 as your option. You can enter -1 to quit.")
-                
-
-                #Prompt user to save the following information to appropriately named files
-                #Reload device
-                #Running configuration file (show running-config)
-                outoption = input()
-
-                try:
-                    if outoption == '0':            
-                        print("You selected 0 succesfully.")
-                        #print(ipintbr)
-                        #print("Printed details succesfully.")
-                        try:
-                            ipintbr = net_connect.send_command('show running-config')
-                            print("Now saving running configuration to a file")
-                            with open("ipintbr.txt", "w") as f:
-                                f.write(ipintbr)
-                        except:
-                            print("Failed to print to file")
-
-                    elif outoption == '1':
-                        print("You selected 1 succesfully.")
-                        runconf = net_connect.send_command('show running-config')
-                        print(runconf)
-                        print("Printed details succesfully.")
-                        try:
-                            print("now saving runconf to a file")
-                            with open("runconf.txt", "w") as f:
-                                f.write(runconf)
-                        except:
-                            print("Failed to print to file")
-
-                    elif outoption == '-1':
-                        print("quitting")
-                        exit()
-                    else:
-                        print("Sorry, was looking for -1, 0 or 1 for selecting a cisco device output")
-                except:
-                    print("Failed to read input.")
-
-
-                net_connect.disconnect()
-
-'''
-
-
-    
