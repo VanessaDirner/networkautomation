@@ -15,15 +15,6 @@ def connecting(updevices):
     ##updevices = ['192.168.7.1', '192.168.7.2', '192.168.7.3', '192.168.7.11', '192.168.7.12', '192.168.7.13', '192.168.7.14', '192.168.7.15', '192.168.7.140']
 
 
-    devicechoice = int()
-
-    ciscoTemplate = {
-        'device_type': 'cisco_ios',
-        'host':  updevices[devicechoice],
-        'username':'cisco',
-        'password':'cisco'
-    }
-
 
 
     all = len(updevices) + 1
@@ -34,28 +25,28 @@ def connecting(updevices):
             print("To select all devices, enter", all)
             print("Enter -1 to quit.")
 
-            devicechoice = input()
-            selecteddevice = ''
+            devicechoice = int(input())
+
 
             ##print("now connecting to machine.", devices[1])
             ##Validate the IP Address entered works for your Rack or series of devices
             try:
-
+                ## quit value
                 if (devicechoice == "-1"):
                     print("You entered: ", devicechoice , ", to quit, succesfully")
                     print("quit entered, quitting.")
                     quit = True
                     exit()
-                elif(devicechoice > -1 and devicechoice <= len(updevices)):
+                elif(devicechoice > -1 and devicechoice < len(updevices)):
                     print("You selected ", devicechoice)
                     print("loading configuration..", updevices[devicechoice], "succesfully")
-                    selecteddevice = updevices[devicechoice]
-                elif(devicechoice == all):
+                elif(devicechoice == len(updevices)):
                     print("You selected all. Preparing devices")
                 else:
                     print("You didn't select one of the options. Enter an option between 1 and ", len(updevices) , "Try again")
-            except:
+            except Exception as e:
                 print("Failed to get details about device choice.")
+                print(e)
         
             print("Enter -1 to quit now. Enter anything else to continue")
             leave = input()
@@ -66,29 +57,46 @@ def connecting(updevices):
             print("Continuing.")   
             failed = False
             try:
-                if devicechoice > -1 and devicechoice <= len(updevices):
-                    ##Connect to the Network Device, and display the following information
-                    print("Template is:", ciscoTemplate)
-                    debug_a = net_connect = ConnectHandler(**ciscoTemplate)
-                    print(debug_a)
-                    net_connect.enable() 
-                    print(net_connect.find_prompt())
-                ##Display the active Hostname of the Device
-                if devicechoice == all:
+                if devicechoice == len(updevices):
+                    print("in devicechoice loop since all selected")
                     for device in updevices:
                         ##Connect to the Network Device, and display the following information
                         devicechoice = device
+                        print("Device is:", device)
+                        ciscoTemplate = {
+                            'device_type': 'cisco_ios',
+                            'host':  updevices[devicechoice],
+                            'username':'cisco',
+                            'password':'cisco'
+                        }
+                        print("Template is:", ciscoTemplate)
+                        try:
+                            debug_a = net_connect = ConnectHandler(**ciscoTemplate)
+                            print(debug_a)
+                            net_connect.enable() 
+                            print(net_connect.find_prompt()) 
+                        except:
+                            print("")
+                else:
+                    ciscoTemplate = {
+                        'device_type': 'cisco_ios',
+                        'host':  updevices[devicechoice],
+                        'username':'cisco',
+                        'password':'cisco'
+                    }
+                    ##Connect to the Network Device, and display the following information
+                    try:
                         print("Template is:", ciscoTemplate)
                         debug_a = net_connect = ConnectHandler(**ciscoTemplate)
                         print(debug_a)
                         net_connect.enable() 
-                        print(net_connect.find_prompt()) 
+                        print(net_connect.find_prompt())
+                    except:
             except:
-                print("Failed to connect and enumerate details of device." \
-                "Since the device cannot be connected to, will not continue. Quitting.")
+                print("Failed to connect and enumerate details of device", updevices[devicechoice])
                 failed = True
-                quit = True
 
+'''
             if failed == False:
                 print("displayed basic device information above succesfully. What other details would you like to see? " \
                 "Your options are: 0 - Show Running Configuration : 1 - Reload Device" \
@@ -136,14 +144,7 @@ def connecting(updevices):
 
                 net_connect.disconnect()
 
+'''
 
-        #All completed prompts should loop back to section b, and offer the user an option to quit if they are satisfied with their exports.
-
-        #A success or failure message should accompany any task.
-
-
-    if quit == True:
-        print("quitting")
-        exit()
 
     

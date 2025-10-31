@@ -5,11 +5,18 @@ from getpass import getpass
 
 import getadapters
 import getdevices
-##import connecttodevice
+import connecttodevice
 
+'''
 print("starting")
 ip_address_combined = getadapters.adapterdetails()
 print("done first module")
-listofIPs = getdevices.getallIPs(ip_address_combined)
+updevices = getdevices.getallIPs(ip_address_combined)
+print("done second module, onto next...")
+'''
 
-#b = connecttodevice
+
+updevices = ['192.168.7.1', '192.168.7.2', '192.168.7.3', '192.168.7.11', '192.168.7.12', '192.168.7.13', '192.168.7.14', '192.168.7.15', '192.168.7.140', '192.168.7.1', '192.168.7.101', '192.168.7.110', '192.168.7.140']
+
+b = connecttodevice.connecting(updevices)
+print("Done last module")
