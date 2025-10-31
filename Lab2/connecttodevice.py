@@ -128,7 +128,8 @@ def connecting(updevice):
             print("Printed details succesfully.")
             try:
                 print("now saving runconf to a file")
-                with open("runconf.txt", "w") as f:
+                filename = f"C:\\Users\\Vanessa\\Documents\\GitHub\\networkautomation\\Lab2\\templates\\{runconf}"
+                with open(runconf, "w") as f:
                     f.write(runconf)
             except:
                 print("Failed to print to file")
