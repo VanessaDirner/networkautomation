@@ -24,7 +24,7 @@ def saving(updevices):
         # with open(filename) as f:
         #     f.write(str(ciscoTemplate))
         with open(filename, 'w') as f:
-            f.write(json.dumps(ciscoTemplate))
+            json.dump(ciscoTemplate, f, indent=4) #f.write()
         # except Exception as e:
         #     print("Failed to write to file. Continuing to next device.")
         #     print(e)
