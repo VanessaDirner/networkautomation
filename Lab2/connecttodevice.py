@@ -3,7 +3,7 @@ from getpass import getpass
 import os
 import json
 
-def gettemplates(updevices):
+def gettemplates():
     
     ciscotemplates = []
 
@@ -26,8 +26,8 @@ def gettemplates(updevices):
 
 
 
-def choice(updevices):
-    ciscotemplates = gettemplates(updevices)
+def choice():
+    ciscotemplates = gettemplates()
     print("Started connecting section...")
 
     all = len(ciscotemplates) + 1
@@ -56,7 +56,7 @@ def choice(updevices):
         elif(devicechoice == all):
             print("You selected all. Preparing devices")
         else:
-            print("You didn't select one of the options. Enter an option between 1 and ", len(updevices) , "Try again")
+            print("You didn't select one of the options. Enter an option between 1 and ", len(ciscotemplates) , "Try again")
     except Exception as e:
         print("Failed to get details about device choice.")
         print(e)
@@ -65,34 +65,39 @@ def choice(updevices):
         leave = input()
         if leave == '-1':
             print("-1 was entered, quitting.")
-            quit = True
             exit()
         print("Continuing.")   
         failed = False
     return devicechoice, ciscotemplates
 
 def connecting(updevice):
-    devicechoice, ciscotemplates = choice(updevice)
+    connect_success = False
+    while connect_success == False:
+        ## get choice and bring it back
+        devicechoice, ciscotemplates = choice()
 
-    selected_template = devicechoice
-    countdevice = 0
-    if devicechoice == all:
-        for device in updevice:
-            print("todo")
-            countdevice = countdevice + 1
-    else:
-        connection = ciscotemplates[devicechoice]
-        print("your connection details are", connection , "as value, and type of", type(connection))
-        debug_a = net_connect = ConnectHandler(**connection)
-        print(debug_a)
-        try:
-            net_connect.enable() 
-            print(net_connect.find_prompt())
-        except:
-            print("device did not connect, moving on.")
-
-    
-
+        selected_template = devicechoice
+        countdevice = 0
+        if devicechoice == all:
+            for device in updevice:
+                print("todo")
+                countdevice = countdevice + 1
+        else:
+            try:
+                connection = ciscotemplates[devicechoice]
+                print("your connection details are", connection , "as value, and type of", type(connection))
+                debug_a = net_connect = ConnectHandler(**connection)
+                print(debug_a)
+                try:
+                    net_connect.enable() 
+                    print(net_connect.find_prompt())
+                    connect_success = True
+                except:
+                    print("device did not connect. Going back to device choice menu.")
+                    choice()
+            except:
+                print("Failed to connect. Moving on")
+ 
 
     #Prompt user to save the following information to appropriately named files
     #Reload device
@@ -100,30 +105,31 @@ def connecting(updevice):
     quit = False
     while quit != True:
         print("What  details would you like to see? " \
-        "Your options are: 0 - Show Running Configuration : 1 - Reload Device" \
-        "Enter 0 or 1 as your option. You can enter -1 to quit.")
+        "Your options are: 0 - Reload Device : 1 - Show Running Configuration. You can quit with -1")
         outoption = input()
         try:
             if outoption == '0':            
                 print("You selected 0 succesfully.")
                 try:
-                    net_connect.send_command('reload force')
+                    net_connect.send_command('reload')
                     print("Now reloading device")
-                except:
-                    print("Failed to reload device")
+                except Exception as e:
+                    print("Failed to reload device: ", e)
 
             elif outoption == '1':
                 print("You selected 1 succesfully.")
-                runconf = net_connect.send_command('show running-config')
-                print(runconf)
-                print("Printed details succesfully.")
                 try:
+                    runconf = net_connect.send_command('show running-config')
+                    print(runconf)
+                    print("Printed details succesfully.")
                     print("now saving runconf to a file")
-                    filename = f"C:\\Users\\Vanessa\\Documents\\GitHub\\networkautomation\\Lab2\\templates\\{runconf}"
-                    with open(runconf, "w") as f:
+                    host_ip = ciscotemplates[devicechoice]['host']
+                    filename = f"C:\\Users\\Vanessa\\Documents\\GitHub\\networkautomation\\Lab2\\templates\\{host_ip}.txt"
+                    print("filename will be", filename)
+                    with open(filename, "w") as f:
                         f.write(runconf)
-                except:
-                    print("Failed to print to file")
+                except Exception as e:
+                    print("Failed to print to file:", e)
 
             elif outoption == '-1':
                 print("quitting")
@@ -132,6 +138,7 @@ def connecting(updevice):
                 print("Sorry, was looking for -1, 0 or 1 for selecting a cisco device output")
         except:
             print("Failed to read input.")
+        print("Looping back to selection menu...")
 
 
         net_connect.disconnect()

@@ -18,7 +18,7 @@ print("starting third part to create templates... ")
 updevices = ['192.168.7.1', '192.168.7.2', '192.168.7.3', '192.168.7.11', '192.168.7.12', '192.168.7.13', '192.168.7.14', '192.168.7.15']
 result = savetemplates.saving(updevices)
 print("starting fourth part to get templates")
-a = connecttodevice.gettemplates(updevices)
+a = connecttodevice.gettemplates()
 print("starting fifth part to connect to devices")
 b = connecttodevice.connecting(updevices)
 print("Done last module")
