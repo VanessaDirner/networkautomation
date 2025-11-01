@@ -39,9 +39,11 @@ while (choice_selected == False) and (quit == False):
         outoption = input()
         if outoption == '0':            
             print("You selected 0 succesfully.")
+            action = outoption
             choice_selected = True
         elif outoption == '1':
             print("You selected 1 succesfully.")
+            action = outoption
             choice_selected = True
         elif outoption == '-1':
             print("quitting")
@@ -84,14 +86,12 @@ while (choice_selected == False) and (quit == False):
             choice_selected = True
         elif(devicechoice == all):
             print("You selected all. Preparing devices")
-
             choice_selected = True
         else:
             print("You didn't select one of the options. Enter an option between 1 and ", len(Ips_and_templates) , "Try again")
     except Exception as e:
         print("Failed to get details about device choice.")
         print(e)
-
         print("Enter -1 to quit now. Enter anything else to continue")
         leave = input()
         if leave == '-1':
@@ -100,12 +100,17 @@ while (choice_selected == False) and (quit == False):
         print("Continuing.")   
         failed = False
 
-exit()
 
 ## if choice is all, for each IP acting as a key for my templates, + action
-for ip in Ips_and_templates:
-    connecttodevice.runaction(ip, action, Ips_and_templates)
+if devicechoice == all:
+    for ip in Ips_and_templates:
+        print(action, ip, Ips_and_templates.get(ip))
+        connecttodevice.runaction(action, ip, Ips_and_templates.get(ip))
 ## otherwise, send the individual IP key along with template, + action
+else:
+    print(action, ip, Ips_and_templates.get(ip))
+    connecttodevice.runaction(action, ip, Ips_and_templates.get(ip))
+
 
 
 

@@ -30,16 +30,19 @@ def gettemplates():
                 
 
 
-def runaction(device, action, ciscotemplates):
+def runaction(action, host_ip, template):
+
+    #connect to device
+
     #run = True
     # tmp = f"{device}.txt"
     # device_template = ciscotemplates[tmp]
-    filename = f"C:\\Users\\Vanessa\\Documents\\GitHub\\networkautomation\\Lab2\\templates\\192.168.7.12.json"
-    print("filename is ", filename)
-    f = open(filename, 'r')
+    # filename = f"C:\\Users\\Vanessa\\Documents\\GitHub\\networkautomation\\Lab2\\templates\\192.168.7.12.json"
+    print("filename is ", template)
+    f = open(template, 'r')
     data = json.load(f)
     print(data)
-    print("your connection details are", data , "for device", device)
+    print("your connection details are", data , "for device", host_ip)
     debug_a = net_connect = ConnectHandler(**data)
     print(debug_a)
     net_connect.enable() 
@@ -60,9 +63,6 @@ def runaction(device, action, ciscotemplates):
             print(runconf)
             print("Printed details succesfully.")
             print("now saving runconf to a file")
-            print("type is:") 
-            type(device)
-            host_ip = ciscotemplates[device]['host']
             print("host IP is", host_ip)
             filename = f"C:\\Users\\Vanessa\\Documents\\GitHub\\networkautomation\\Lab2\\runningconfig\\{host_ip}.txt"
             print("filename will be", filename)
