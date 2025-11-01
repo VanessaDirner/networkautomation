@@ -13,28 +13,99 @@ print("import savetemplates")
 import savetemplates
 
 
-updevices = ['192.168.7.1.json', '192.168.7.101.json', '192.168.7.11.json', '192.168.7.110.json', '192.168.7.12.json', '192.168.7.13.json', '192.168.7.14.json', '192.168.7.140.json', '192.168.7.15.json', '192.168.7.2.json', '192.168.7.3.json']
-print("starting get templates")
-
-ciscotemplates = connecttodevice.gettemplates()
-
-
-print("get device choice (x)")
-devicechoice = connecttodevice.devicechoice() #updevices
-
-
-print("get (y) action")
-action = connecttodevice.action()
+### get templates, create association between IPs and their template
+updevices = ['192.168.7.1', '192.168.7.101', '192.168.7.11', '192.168.7.110', '192.168.7.12', '192.168.7.13', '192.168.7.14', '192.168.7.140', '192.168.7.15', '192.168.7.2', '192.168.7.3']
+print("starting save templates")
+print("starting third part to create templates... ")
+Ips_and_templates  = savetemplates.saving(updevices)
 
 
 
+#Prompt user to save the following information to appropriately named files
+#Reload device
+#Running configuration file (show running-config)
+
+## keeping asking until they pick an option
+quit = False
+choice_selected = False
+
+while (choice_selected == False) and (quit == False):
+    print("What action would you like to complete? " \
+    "Your options are: 0 - Reload Device : 1 - Show Running Configuration. You can quit with -1")
+    ## we are keeping track of which option they picked with outoption
+    outoption = int()
+
+    try:
+        outoption = input()
+        if outoption == '0':            
+            print("You selected 0 succesfully.")
+            choice_selected = True
+        elif outoption == '1':
+            print("You selected 1 succesfully.")
+            choice_selected = True
+        elif outoption == '-1':
+            print("quitting")
+            quit = True
+            exit()
+        else:
+            print("Sorry, was looking for -1, 0 or 1 for selecting a cisco device output")
+    except Exception as e:
+        print("Ran into an issue: ", e)
 
 
-if devicechoice == all:
-    for device in ciscotemplates:
-        connecttodevice.runaction(device, action, ciscotemplates)
-else:
-    connecttodevice.runaction(devicechoice, action, ciscotemplates)
+all = len(Ips_and_templates) + 1
+
+quit = False
+choice_selected = False
+index = int(0) 
+
+while (choice_selected == False) and (quit == False):
+    ##Prompt a User to input an IP Address for a Network Device in the Rack
+    print("Which device would you like to connect to. To select an individual device, your options are any of these files. ")
+    ## for each template, print template and it's count
+    ips = Ips_and_templates.keys()
+    for ip in ips:
+        print("Option", index, "is", ip)
+        index = index + 1
+    print("To select all devices, enter", all)
+    print("Enter -1 to quit.")
+    devicechoice = int(input())
+    ##Validate the IP Address entered works for your Rack or series of devices
+    try:
+        ## quit value
+        if (devicechoice == "-1"):
+            print("You entered: ", devicechoice, ", to quit, succesfully")
+            print("quit entered, quitting.")
+            exit()
+        elif(devicechoice >= 0 and devicechoice <= len(Ips_and_templates)):
+            print("You selected ", devicechoice)
+            print("loading configuration..", Ips_and_templates.get(ip), "succesfully")
+            selected_template = Ips_and_templates.get(ip)
+            choice_selected = True
+        elif(devicechoice == all):
+            print("You selected all. Preparing devices")
+
+            choice_selected = True
+        else:
+            print("You didn't select one of the options. Enter an option between 1 and ", len(Ips_and_templates) , "Try again")
+    except Exception as e:
+        print("Failed to get details about device choice.")
+        print(e)
+
+        print("Enter -1 to quit now. Enter anything else to continue")
+        leave = input()
+        if leave == '-1':
+            print("-1 was entered, quitting.")
+            exit()
+        print("Continuing.")   
+        failed = False
+
+exit()
+
+## if choice is all, for each IP acting as a key for my templates, + action
+for ip in Ips_and_templates:
+    connecttodevice.runaction(ip, action, Ips_and_templates)
+## otherwise, send the individual IP key along with template, + action
 
 
 
@@ -45,8 +116,6 @@ print("starting first module to get network adapters...")
 ip_address_combined = getadapters.adapterdetails()
 print("starting second module to get IP addreseses")
 updevices = getdevices.getallIPs(ip_address_combined)
-print("starting third part to create templates... ")
-result = savetemplates.saving(updevices)
 
 
 # get device choice (x)
