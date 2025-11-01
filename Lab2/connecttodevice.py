@@ -95,42 +95,30 @@ def devicechoice():
             exit()
         print("Continuing.")   
         failed = False
-    return devicechoice, ciscotemplates
+    return devicechoice
 
-def connecting(devicechoice, ciscotemplates):
-    connect_success = False
-    while connect_success == False:
-        ## get choice and bring it back
-        selected_template = devicechoice
-        countdevice = 0
-        if devicechoice == all:
-            for device in ciscotemplates:
-                countdevice = countdevice + 1
                 
-        else:
-            try:
-                connection = ciscotemplates[devicechoice]
-                print("your connection details are", connection , "as value, and type of", type(connection))
-                debug_a = net_connect = ConnectHandler(**connection)
-                print(debug_a)
-                try:
-                    net_connect.enable() 
-                    print(net_connect.find_prompt())
-                    connect_success = True
-                    runaction()
-                    net_connect.disconnect()
-                except:
-                    print("device did not connect. Going back to device choice menu.")
-                    
-            except:
-                print("Failed to connect. Moving on")
- 
 
-def runaction(device):
-    run = True
+
+def runaction(device, action, ciscotemplates):
+    #run = True
     if action == 1:
         try:
+            # tmp = f"{device}.txt"
+            # device_template = ciscotemplates[tmp]
+            filename = f"C:\\Users\\Vanessa\\Documents\\GitHub\\networkautomation\\Lab2\\templates\\{device}.txt"
+            print("filename is ", filename)
+            f = open(filename, 'r')
+            data = f.read
+            print(data)
+            print("your connection details are", data , "for device", device)
+            debug_a = net_connect = ConnectHandler(**data)
+            print(debug_a)
+            net_connect.enable() 
+            print(net_connect.find_prompt())
+            #connect_success = True
             net_connect.send_command('reload')
+            net_connect.disconnect()
             print("Now reloading device")
         except Exception as e:
             print("Failed to reload device: ", e)
@@ -150,5 +138,20 @@ def runaction(device):
 
 
         #
-
+'''                try:
+                    connection = ciscotemplates[devicechoice]
+                    print("your connection details are", connection , "as value, and type of", type(connection))
+                    debug_a = net_connect = ConnectHandler(**device)
+                    print(debug_a)
+                    try:
+                        net_connect.enable() 
+                        print(net_connect.find_prompt())
+                        connect_success = True
+                        runaction()
+                        net_connect.disconnect()
+                    except:
+                        print("device did not connect. Going back to device choice menu.")
+                except:
+                    print("Failed to connect. Moving on")
+ '''
 
