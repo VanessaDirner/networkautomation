@@ -13,7 +13,7 @@ def saving(updevices):
             'password':'cisco'
         }
         print("Template is:", ciscoTemplate)
-        filename = f"{updevices[counter]}.json" # add filelocation
+        filename = f"C:\\Users\\Vanessa\\Documents\\GitHub\\networkautomation\\Lab2\\templates\\{updevices[counter]}.json" # add filelocation
         print("File name will be", filename)
         ## save templates to files
         counter = counter + 1
