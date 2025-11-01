@@ -28,8 +28,3 @@ def saving(updevices):
         # except Exception as e:
         #     print("Failed to write to file. Continuing to next device.")
         #     print(e)
-
-
-updevices = ['192.168.7.1', '192.168.7.2', '192.168.7.3', '192.168.7.11', '192.168.7.12', '192.168.7.13', '192.168.7.14', '192.168.7.15', '192.168.7.140', '192.168.7.1', '192.168.7.101', '192.168.7.110', '192.168.7.140']
- 
-saving(updevices)

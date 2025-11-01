@@ -124,7 +124,7 @@ def connecting(updevice):
                     print("Printed details succesfully.")
                     print("now saving runconf to a file")
                     host_ip = ciscotemplates[devicechoice]['host']
-                    filename = f"C:\\Users\\Vanessa\\Documents\\GitHub\\networkautomation\\Lab2\\templates\\{host_ip}.txt"
+                    filename = f"C:\\Users\\Vanessa\\Documents\\GitHub\\networkautomation\\Lab2\\runningconfig\\{host_ip}.txt"
                     print("filename will be", filename)
                     with open(filename, "w") as f:
                         f.write(runconf)
