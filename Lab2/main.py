@@ -78,26 +78,30 @@ while (choice_selected == False) and (quit == False):
         print("Option", index, "is", ip)
         index = index + 1
     print("To select all devices, enter", all)
+    print("Enter the IP Address in dotted decimal of the device you'd like to select. (Not a number)")
     print("Enter -1 to quit.")
-    devicechoice = int(input())
+    devicechoice = input()
     ##Validate the IP Address entered works for your Rack or series of devices
     try:
         ## quit value
-        if (devicechoice == -1):
+        if (devicechoice == '-1'):
             print("You entered: ", devicechoice, ", to quit, succesfully")
             print("quit entered, quitting.")
             quit = True
             exit()
-        elif(devicechoice >= 0 and devicechoice <= len(Ips_and_templates)):
-            print("You selected ", devicechoice)
-            print("loading configuration..", Ips_and_templates.get(ip), "succesfully")
-            selected_template = Ips_and_templates.get(ip)
-            choice_selected = True
         elif(devicechoice == all):
             print("You selected all. Preparing devices")
             choice_selected = True
         else:
-            print("You didn't select one of the options. Enter an option between 1 and ", len(Ips_and_templates) , "Try again")
+            print("Attempting to read input.")
+            ip = devicechoice
+            if ip in Ips_and_templates:
+                print("IP exists. Assigning as selection succesfully")
+                choice_selected = True
+            else:
+                print("Failed to get template based on IP. Please double check your entry")
+            # Ips_and_templates.get(ip) 
+            # print("You didn't select one of the options. Enter an option between 1 and ", len(Ips_and_templates) , "Try again")
     except Exception as e:
         print("Failed to get details about device choice.")
         print(e)
@@ -117,7 +121,7 @@ if devicechoice == all:
         connecttodevice.runaction(action, ip, Ips_and_templates.get(ip))
 ## otherwise, send the individual IP key along with template, + action
 else:
-    print(action, ip, Ips_and_templates.get(ip))
+    print("action is", action, "ip is", ip, "template is", Ips_and_templates.get(ip))
     connecttodevice.runaction(action, ip, Ips_and_templates.get(ip))
 
 

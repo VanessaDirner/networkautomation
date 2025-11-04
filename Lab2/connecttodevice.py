@@ -47,22 +47,30 @@ def runaction(action, host_ip, template):
         try:
             print("Now reloading device")
             #connect_success = True
-            net_connect.send_command('reload')
-            net_connect.send_command_timing("\n")
+            output = net_connect.send_command(
+                command_string="reload",
+                expect_string="confirm",
+                strip_prompt=False,
+                strip_command=False
+            )
+            output += net_connect.send_command(
+                command_string="\n"
+            )
+            print("reloaded device succesfully")
             net_connect.disconnect()
         except Exception as e:
             print("Failed to reload device: ", e)
     if action == "1":
         try:
             runconf = net_connect.send_command('show running-config')
-            print(runconf)
-            print("Printed details succesfully.")
+            print("Grabbed details succesfully.")
             print("now saving runconf to a file")
             print("host IP is", host_ip)
             filename = f"C:\\Users\\Vanessa\\Documents\\GitHub\\networkautomation\\Lab2\\runningconfig\\{host_ip}.txt"
             print("filename will be", filename)
             with open(filename, "w") as f:
                 f.write(runconf)
+            print("Saved details to file succesfully")
         except Exception as e:
             print("Failed to print to file:", e)
     else:
