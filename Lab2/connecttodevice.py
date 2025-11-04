@@ -31,13 +31,6 @@ def gettemplates():
 
 
 def runaction(action, host_ip, template):
-
-    #connect to device
-
-    #run = True
-    # tmp = f"{device}.txt"
-    # device_template = ciscotemplates[tmp]
-    # filename = f"C:\\Users\\Vanessa\\Documents\\GitHub\\networkautomation\\Lab2\\templates\\192.168.7.12.json"
     print("filename is ", template)
     f = open(template, 'r')
     data = json.load(f)
@@ -48,17 +41,19 @@ def runaction(action, host_ip, template):
     net_connect.enable() 
     print(net_connect.find_prompt())
 
+    print("action is ", action, "with a type of ", type(action))
     ## once connected, run command
-    if action == 1:
+    if action == "0":
         try:
+            print("Now reloading device")
             #connect_success = True
             net_connect.send_command('reload')
+            net_connect.send_command_timing("\n")
             net_connect.disconnect()
-            print("Now reloading device")
         except Exception as e:
             print("Failed to reload device: ", e)
-    if action == 0:
-        # try:
+    if action == "1":
+        try:
             runconf = net_connect.send_command('show running-config')
             print(runconf)
             print("Printed details succesfully.")
@@ -68,25 +63,7 @@ def runaction(action, host_ip, template):
             print("filename will be", filename)
             with open(filename, "w") as f:
                 f.write(runconf)
-        # except Exception as e:
-        #     print("Failed to print to file:", e)
-
-
-        #
-'''                try:
-                    connection = ciscotemplates[devicechoice]
-                    print("your connection details are", connection , "as value, and type of", type(connection))
-                    debug_a = net_connect = ConnectHandler(**device)
-                    print(debug_a)
-                    try:
-                        net_connect.enable() 
-                        print(net_connect.find_prompt())
-                        connect_success = True
-                        runaction()
-                        net_connect.disconnect()
-                    except:
-                        print("device did not connect. Going back to device choice menu.")
-                except:
-                    print("Failed to connect. Moving on")
- '''
-
+        except Exception as e:
+            print("Failed to print to file:", e)
+    else:
+         print("did not run an action")

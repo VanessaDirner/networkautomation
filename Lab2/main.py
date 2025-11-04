@@ -12,9 +12,17 @@ import connecttodevice
 print("import savetemplates")
 import savetemplates
 
+'''
+print("starting first module to get network adapters...")
+ip_address_combined = getadapters.adapterdetails()
+print("starting second module to get IP addreseses")
+updevices = getdevices.getallIPs(ip_address_combined)
+'''
 
 ### get templates, create association between IPs and their template
-updevices = ['192.168.7.1', '192.168.7.101', '192.168.7.11', '192.168.7.110', '192.168.7.12', '192.168.7.13', '192.168.7.14', '192.168.7.140', '192.168.7.15', '192.168.7.2', '192.168.7.3']
+
+## testing only
+updevices = ['192.168.7.1', '192.168.7.11', '192.168.7.12', '192.168.7.13', '192.168.7.14', '192.168.7.15', '192.168.7.2', '192.168.7.3']
 print("starting save templates")
 print("starting third part to create templates... ")
 Ips_and_templates  = savetemplates.saving(updevices)
@@ -48,7 +56,7 @@ while (choice_selected == False) and (quit == False):
         elif outoption == '-1':
             print("quitting")
             quit = True
-            exit()
+            quit()
         else:
             print("Sorry, was looking for -1, 0 or 1 for selecting a cisco device output")
     except Exception as e:
@@ -75,9 +83,10 @@ while (choice_selected == False) and (quit == False):
     ##Validate the IP Address entered works for your Rack or series of devices
     try:
         ## quit value
-        if (devicechoice == "-1"):
+        if (devicechoice == -1):
             print("You entered: ", devicechoice, ", to quit, succesfully")
             print("quit entered, quitting.")
+            quit = True
             exit()
         elif(devicechoice >= 0 and devicechoice <= len(Ips_and_templates)):
             print("You selected ", devicechoice)
@@ -116,11 +125,6 @@ else:
 
 
 exit()
-
-print("starting first module to get network adapters...")
-ip_address_combined = getadapters.adapterdetails()
-print("starting second module to get IP addreseses")
-updevices = getdevices.getallIPs(ip_address_combined)
 
 
 # get device choice (x)
