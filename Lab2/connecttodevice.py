@@ -40,6 +40,7 @@ def runaction(action, host_ip, template):
     print(debug_a)
     net_connect.enable() 
     print(net_connect.find_prompt())
+    success = False
 
     print("action is ", action, "with a type of ", type(action))
     ## once connected, run command
@@ -53,13 +54,20 @@ def runaction(action, host_ip, template):
                 strip_prompt=False,
                 strip_command=False
             )
+            print(output)
+            print("reloading device succesfully")
+            success = True
             output += net_connect.send_command(
                 command_string="\n"
             )
-            print("reloaded device succesfully")
+            print(output)
+
             net_connect.disconnect()
         except Exception as e:
-            print("Failed to reload device: ", e)
+            if success == True:
+                print("Device reload completed")
+            else:
+                print("Failed to reload device: ", e)
     if action == "1":
         try:
             runconf = net_connect.send_command('show running-config')
@@ -71,7 +79,10 @@ def runaction(action, host_ip, template):
             with open(filename, "w") as f:
                 f.write(runconf)
             print("Saved details to file succesfully")
+            success = True
         except Exception as e:
             print("Failed to print to file:", e)
+    if success == True:
+        print("") # fail succesfully and silently -- what a great idea for prod
     else:
          print("did not run an action")
