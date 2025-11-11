@@ -1,4 +1,4 @@
-from netmiko import ConnectHandler
+#from netmiko import ConnectHandler
 from getpass import getpass
 import os
 import json
@@ -40,10 +40,10 @@ def runaction(action, host_ip, template):
     data = json.load(f)
     print(data)
     print("your connection details are", data , "for device", host_ip)
-    debug_a = net_connect = ConnectHandler(**data)
-    print(debug_a)
-    net_connect.enable() 
-    print(net_connect.find_prompt())
+    # debug_a = net_connect = ConnectHandler(**data)
+    # print(debug_a)
+    # net_connect.enable() 
+    # print(net_connect.find_prompt())
     success = False
 
     print("action is ", action, "with a type of ", type(action))
@@ -53,8 +53,8 @@ def runaction(action, host_ip, template):
             # Create a Loopback Interface with a valid IP address
             print("Creating a Loopback Interface with a valid IP address")
             #connect_success = True
-            runconf = net_connect.send_command('')
-            net_connect.disconnect()
+            # runconf = net_connect.send_command('')
+            # net_connect.disconnect()
         except Exception as e:
             if success == True:
                 print("Device reload completed")
@@ -62,16 +62,16 @@ def runaction(action, host_ip, template):
                 print("Failed to reload device: ", e)
     if action == "1":
         try:
-            runconf = net_connect.send_command('')
+            # runconf = net_connect.send_command('')
             print("Grabbed details succesfully.")
             # Enter in a static route to another Router in your setup
             print("Entering in a static route to another Router in your setup")
             print("host IP is", host_ip)
-            filename = f"C:\\Users\\Vanessa\\Documents\\GitHub\\networkautomation\\Lab2\\runningconfig\\{host_ip}.txt"
+            filename = f"C:\\Users\\Vanessa\\Documents\\GitHub\\networkautomation\\assignment3\\runningconfig\\{host_ip}.txt"
             print("filename will be", filename)
-            with open(filename, "w") as f:
-                f.write(runconf)
-            print("Saved details to file succesfully")
+            # with open(filename, "w") as f:
+            #     f.write(runconf)
+            # print("Saved details to file succesfully")
             success = True
         except Exception as e:
             print("Failed to print to file:", e)
