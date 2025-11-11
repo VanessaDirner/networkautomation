@@ -4,7 +4,7 @@ import os
 import json
 
 
-def runaction(action, host_ip, template):
+def runaction(host_ip, template):
         
     # Connect to the Network Device, and display the following information
     print("Now connecting to the Router")
@@ -23,7 +23,7 @@ def runaction(action, host_ip, template):
     print("Option 1: Create a Loopback Interface with a valid IP address")
     print("Option 2: Enter in a static route to another Router in your setup")
     print("Option 3: Display and validate the IP Route Table is correct")
-
+    action = 1
 
 
 
@@ -33,6 +33,7 @@ def runaction(action, host_ip, template):
 
     print("Would you like to continue modifying the current device?")
     print("Enter 1 to continue, 0 to stop.")
+
 
     ## next part 
     print("filename is ", template)

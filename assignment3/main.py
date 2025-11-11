@@ -30,4 +30,4 @@ while valid == False:
                 print("still looking for a match, latest option was ", valid_devices[counter])
         counter = counter + 1
 
-connectandrun.runaction()
+connectandrun.runaction(device_input, IPs_and_templates)
