@@ -4,39 +4,6 @@ from netmiko import ConnectHandler
 valid_devices = {'192.168.7.1' : 'R1',
                   '192.168.7.2' : 'R2'}
 
-##IPs_and_templates = savetemplates.saving(valid_devices)
-R1template = {
-    'device_type': 'cisco_ios',
-    'host':  '192.168.7.1',
-    'username':'cisco',
-    'password':'cisco'
-}
-
-R2template =  {
-    'device_type': 'cisco_ios',
-    'host':  '192.168.7.2',
-    'username':'cisco',
-    'password':'cisco'
-}
-
-R3template =  {
-    'device_type': 'cisco_ios',
-    'host':  '192.168.7.3',
-    'username':'cisco',
-    'password':'cisco'
-}
-
-
-
-# Identify what Rack you are in within the prompt
-print("you are at rack 7")
-
-# Prompt a User to input an IP Address for a Router in the Rack
-print("Enter an IP Address for a Router in the Rack")
-
-
-
-
 while quit != True:
 
     gotob = False
@@ -44,41 +11,33 @@ while quit != True:
     while gotob == False:
 
         ##Identify what Rack you are in within the prompt
-        print("You are at rack ", rack)
+        print("You are at rack 7")
+
+        # Prompt a User to input an IP Address for a Router in the Rack
+        print("Enter an IP Address for a Router in the Rack")
 
         ##Prompt a User to input an IP Address for a Network Device in the Rack
-        print("Hi, which device would you like to connect to. Your options are: R1, R2, R3, SW1, SW2, SW3, SW4, SW5." \
-        "Enter 0 to quit.")
+        print("Hi, which device would you like to connect to. Your options are: ", valid_devices, 
+              "IP must be one of these to work. Enter 0 to quit.")
 
-        devicechoice = input()
-        devicechoice = devicechoice.upper()
-        selecteddevice = ''
-
-        ##print("now connecting to machine.", devices[1])
-        ##Validate the IP Address entered works for your Rack or series of devices
         try:
-            print("You entered: ", devicechoice , ", to quit, succesfully")
+            devicechoice = input("Enter the router IP address: ")
             if (devicechoice == "0"):
+                print("You entered: ", devicechoice , ", to quit, succesfully")
                 print("quit entered, quitting.")
                 quit = True
                 exit()
-            elif(devicechoice == "R1" ):
-                print("You selected R1")
-                print("loading configuration..", R1template, "succesfully")
-                selecteddevice = R1template
-                gotob = True
-            elif(devicechoice == "R2"):
-                print("You selected R2")
-                print("loading configuration..", R2template, "succesfully")
-                selecteddevice = R2template                
-                gotob = True
-            elif(devicechoice == "R3" ):
-                print("You selected R3")
-                print("loading configuration..", R3template, "succesfully")
-                selecteddevice = R3template
-                gotob = True
             else:
-                print("You didn't select one of the options. Try again")
+                def build_template(ip):
+                    return {
+                        "device_type": "cisco_ios",
+                        "host": ip,
+                        "username": "cisco",
+                        "password": "cisco"
+                    }
+                selecteddevice = build_template(devicechoice)
+                print("Generated template:", selecteddevice)
+                gotob = True
         except:
             print("Failed to get details about device choice.")
 
@@ -127,32 +86,24 @@ while quit != True:
             try:
                 if outoption == '1':            
                     print("You selected 1 succesfully.")
-                    ipintbr = net_connect.send_command('show ip int brief')
-                    print(ipintbr)
-                    print("Printed details succesfully.")
-                    try:
-                        print("Now saving ipintbr to a file")
-                        with open("ipintbr.txt", "w") as f:
-                            f.write(ipintbr)
-                    except:
-                        print("Failed to print to file")
+                    createloopback = net_connect.send_command('interface loopback 33')
+                    addloopbackip = net_connect.send_command('ip address 192.168.7.1 255.255.255.0')
+                    print("Created", createloopback, "with ip address of", addloopbackip, "succesfully.")
                 elif outoption == '2':
-                        ospfneighbor = net_connect.send_command('show ip ospf neighbor')
-                        print(ospfneighbor)
-                        print("Printed details succesfully.")
-                        try:
-                            print("now saving ospfneighbor to a file")
-                            with open("ospfneighbor.txt", "w") as f:
-                                f.write(ospfneighbor)
-                        except:
-                            print("Failed to print to file")
+                        createiproute = net_connect.send_command('ip route 10.0.3.2 255.255.255.0')
+                        print("Created", createiproute, "succesfully.")
                 elif outoption == '3':
                     print("You selected 3 succesfully.")
                     runconf = net_connect.send_command('show running-config')
                     print(runconf)
                     print("Printed details succesfully.")
+                elif outoption == '4':
+                    print("You selected 4 succesfully.")
+                    runconf = net_connect.send_command('show ip route')
+                    print(runconf)
+                    print("Printed details succesfully.")
                     try:
-                        print("now saving runconf to a file")
+                        print("now saving running configuration to a file")
                         with open("runconf.txt", "w") as f:
                             f.write(runconf)
                     except:
