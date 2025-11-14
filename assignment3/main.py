@@ -53,6 +53,7 @@ while quit != True:
         failed = False
         try:
             ##Connect to the Network Device, and display the following information
+            print("Attempting to connect to device")
             net_connect = ConnectHandler(**selecteddevice)
             net_connect.enable() 
             print(net_connect.find_prompt())
@@ -74,11 +75,7 @@ while quit != True:
             "Your options are: 1 - Create a Loopback Interface with a valid IP address, 2 - Enter in a static route to another Router in your setup," \
             " 3 - Display and validate the IP Route Table is correct, 4 - Save your configuration to an appropriately named file" \
             "Enter 1 2 or 3 as your option. You can enter 0 to quit.")
-
-            #Prompt user to save the following information to appropriately named files
-            #Interface information (show ip interface brief)
-            #OSPF Neighbor Information (show ip ospf neighbor)
-            #Running configuration file (show running-config)
+            
             outoption = input()
 
         quit = False
@@ -115,32 +112,9 @@ while quit != True:
                     print("Sorry, was looking for 1, 2 or 3 for selecting a cisco device output")
             except:
                 print("Failed to read input.")
-            
 
-        net_connect.disconnect()
+            net_connect.disconnect()
 
 if quit == True:
     print("quitting")
     exit()
-
-
-
-print("Connected succesfully")
-
-
-
-# Display the Model of the Device
-print("The model is ")
-print("printed model succesfully")
-
-# Prompt user to pick one of the following options to have it be performed on the device you are connecting to:
-print("Which option would you like to perform.")
-print("Option 1: Create a Loopback Interface with a valid IP address")
-print("Option 2: Enter in a static route to another Router in your setup")
-print("Option 3: Display and validate the IP Route Table is correct")
-action = 1
-
-
-
-
-connectandrun.runaction(device_input, IPs_and_templates)
