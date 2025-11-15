@@ -1,8 +1,8 @@
 from netmiko import ConnectHandler
 
 # Validate the IP Address entered works for your Rack or series of devices
-valid_devices = {'192.168.7.1' : 'R1',
-                  '192.168.7.2' : 'R2'}
+valid_devices = {'192.168.6.1' : 'R1',
+                  '192.168.6.2' : 'R2'}
 
 while quit != True:
 
@@ -11,7 +11,7 @@ while quit != True:
     while gotob == False:
 
         ##Identify what Rack you are in within the prompt
-        print("You are at rack 7")
+        print("You are at rack 6")
 
         # Prompt a User to input an IP Address for a Router in the Rack
         print("Enter an IP Address for a Router in the Rack")
@@ -60,10 +60,10 @@ while quit != True:
 
             ##Display the active Hostname of the Device
             hostname = net_connect.send_command('show running-config | include hostname')
-
+            print("hostname is", hostname)
             ##Display the Model of the Device - show version - a specific line has the model type in it, pipe command only get only that
             showver = net_connect.send_command('show version | include Model Number')
-            print(showver)
+            print("model is ", showver)
         except:
             print("Failed to connect and enumerate details of device." \
             "Since the device cannot be connected to, will not continue. Quitting.")
@@ -75,45 +75,56 @@ while quit != True:
             "Your options are: 1 - Create a Loopback Interface with a valid IP address, 2 - Enter in a static route to another Router in your setup," \
             " 3 - Display and validate the IP Route Table is correct, 4 - Save your configuration to an appropriately named file" \
             "Enter 1 2 or 3 as your option. You can enter 0 to quit.")
-            
+            # print("ENTER INPUT  LOOPP!!!")
             outoption = input()
-
-        quit = False
-        while quit != False:
-            try:
-                if outoption == '1':            
-                    print("You selected 1 succesfully.")
-                    createloopback = net_connect.send_command('interface loopback 33')
-                    addloopbackip = net_connect.send_command('ip address 192.168.7.1 255.255.255.0')
-                    print("Created", createloopback, "with ip address of", addloopbackip, "succesfully.")
-                elif outoption == '2':
-                        createiproute = net_connect.send_command('ip route 10.0.3.2 255.255.255.0')
-                        print("Created", createiproute, "succesfully.")
-                elif outoption == '3':
-                    print("You selected 3 succesfully.")
-                    runconf = net_connect.send_command('show running-config')
-                    print(runconf)
-                    print("Printed details succesfully.")
-                elif outoption == '4':
-                    print("You selected 4 succesfully.")
-                    runconf = net_connect.send_command('show ip route')
-                    print(runconf)
-                    print("Printed details succesfully.")
-                    try:
+            # print("ENTER LOOP BELOW  LOOPP!!!")
+            quit = False
+            while quit != True:
+                # print("IN OPTIONS LOOPP!!!")
+                try:
+                    if outoption == '1':            
+                        # print("You selected 1 succesfully. IN LOOP!!!")
+                        net_connect.send_config_set([
+                        "interface loopback 33",
+                        "ip address 192.168.7.1 255.255.255.0"
+                        ])
+                        print("Created loopback with ip address of succesfully.")
+                        print("configuration entered was interface loopback 33 ip address 192.168.7.1 255.255.255.0" )
+                        quit = True                        
+                    elif outoption == '2':
+                            print("creating ip route...")
+                            net_connect.send_config_set([
+                            "ip route 10.0.3.2 255.255.255.0"
+                            ])                        
+                            showiproute = net_connect.send_command('show ip route')
+                            print(showiproute, "Was created succesfully.")
+                            quit = True 
+                    elif outoption == '3':
+                        print("You selected 3 succesfully.")
+                        runconf = net_connect.send_command('show running-config')
+                        print(runconf)
+                        print("Printed details succesfully.")
+                        quit = True 
+                    elif outoption == '4':
+                        print("You selected 4 succesfully.")
+                        runconf = net_connect.send_command('show run')
+                        print(runconf)
+                        print("Printed details succesfully.")
                         print("now saving running configuration to a file")
                         with open("runconf.txt", "w") as f:
                             f.write(runconf)
-                    except:
-                        print("Failed to print to file")
-                elif outoption == '0':
-                    print("quitting")
-                    exit()
-                else:
-                    print("Sorry, was looking for 1, 2 or 3 for selecting a cisco device output")
-            except:
-                print("Failed to read input.")
+                            quit = True 
+                    elif outoption == '0':
+                        print("quitting")
+                        exit()
+                    else:
+                        print("Sorry, was looking for 1, 2 or 3 for selecting a cisco device output")
+                        quit = True 
+                except:
+                    print("Failed to read input.")
+                    quit = True 
 
-            net_connect.disconnect()
+                net_connect.disconnect()
 
 if quit == True:
     print("quitting")
