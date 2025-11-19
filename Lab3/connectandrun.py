@@ -4,7 +4,7 @@ import os
 import json
 
 
-def runaction(host_ip, template):
+def runaction(action, host_ip, template):
         
     # Connect to the Network Device, and display the following information
     print("Now connecting to the Router")
@@ -37,7 +37,6 @@ def runaction(host_ip, template):
 
     ## next part     
     # Read connection information from a .json file unique to each device.
-
     print("filename is ", template)
     f = open(template, 'r')
     data = json.load(f)

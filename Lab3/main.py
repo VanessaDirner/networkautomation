@@ -68,13 +68,12 @@ while (choice_selected == False) and (quit == False):
 all = int(number_of_devices + 1)
 
 quit = False
-choice_selected = False
 index = int(0) 
 
 if (quit == False) and (get_addresses == True):
     print("Starting scan.")    
     # Scan the network to look for new network devices.
-    getdevices.getallIPs()
+    getdevices.getallIPs('192.168.6.0/24')
 
 while (choice_selected == True) and (quit == False) and (get_devices == True) and (device_selected == False):
     ##Prompt a User to input an IP Address for a Network Device in the Rack
@@ -124,12 +123,14 @@ while (choice_selected == True) and (quit == False) and (get_devices == True) an
         failed = False
 
 
-## if choice is all, for each IP acting as a key for my templates, + action
-if devicechoice == all:
-    for ip in IPs_and_templates:
-        print(action, ip, IPs_and_templates.get(ip))
-        connectandrun.runaction(action, ip, IPs_and_templates.get(ip))
-## otherwise, send the individual IP key along with template, + action
-else:
-    print("action is", action, "ip is", selectedip, "template is", IPs_and_templates.get(selectedip))
-    connectandrun.runaction(action, selectedip, IPs_and_templates.get(selectedip))
+## put a blocker on this to make sure it's not run for scan, must have selected a choice and device
+if (choice_selected == True) and (quit == False) and (get_devices == True) and (device_selected == True):
+    ## if choice is all, for each IP acting as a key for my templates, + action
+    if devicechoice == all:
+        for ip in IPs_and_templates:
+            print(action, ip, IPs_and_templates.get(ip))
+            connectandrun.runaction(action, ip, IPs_and_templates.get(ip))
+    ## otherwise, send the individual IP key along with template, + action
+    else:
+        print("action is", action, "ip is", selectedip, "template is", IPs_and_templates.get(selectedip))
+        connectandrun.runaction(action, selectedip, IPs_and_templates.get(selectedip))
