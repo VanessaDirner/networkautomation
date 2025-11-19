@@ -3,9 +3,9 @@ from ipaddress import IPv4Network, ip_network
 from netmiko import ConnectHandler
 from getpass import getpass
 
-print("import connectandrun")
+print("importing connectandrun")
 import connectandrun
-print("Import getdevices")
+print("Importing getdevices")
 import getdevices
 
 ### get templates, create association between IPs and their template
@@ -13,7 +13,7 @@ import getdevices
 ## generate correlation between Ips and templates
 updevices = ['192.168.7.1', '192.168.7.11', '192.168.7.12', '192.168.7.13', '192.168.7.14', '192.168.7.15', '192.168.7.2', '192.168.7.3']
 number_of_devices = 6
-IPs_and_templates = ()
+IPs_and_templates = {}
 counter = 0
 
 for device in updevices:
@@ -25,7 +25,10 @@ for device in updevices:
 ## keeping asking until they pick an option
 quit = False
 choice_selected = False
+device_selected = False
 get_devices = False
+get_addresses = False
+
 
 while (choice_selected == False) and (quit == False):
     print("What action would you like to complete? " \
@@ -40,18 +43,18 @@ while (choice_selected == False) and (quit == False):
         if outoption == '0':            
             print("You selected 0 succesfully.")
             action = outoption
+            get_devices ==True
             choice_selected = True
-            get_devices == True
         elif outoption == '1':
             print("You selected 1 succesfully.")
             action = outoption
             choice_selected = True
-            get_devices == True
+            get_devices = True
         elif outoption == '2':
             print("You selected 2 succesfully.")
             action = outoption
             choice_selected = True
-            get_devices == False
+            get_addresses = True
         elif outoption == '-1':
             print("quitting")
             quit = True
@@ -62,22 +65,22 @@ while (choice_selected == False) and (quit == False):
         print("Ran into an issue: ", e)
 
 
-all = int(len(number_of_devices) + 1)
+all = int(number_of_devices + 1)
 
 quit = False
 choice_selected = False
 index = int(0) 
 
-if (quit == False) and (get_devices == False):
+if (quit == False) and (get_addresses == True):
     print("Starting scan.")    
     # Scan the network to look for new network devices.
-    getdevices.py
+    getdevices.getallIPs()
 
-while (choice_selected == False) and (quit == False) and (get_devices == True):
+while (choice_selected == True) and (quit == False) and (get_devices == True) and (device_selected == False):
     ##Prompt a User to input an IP Address for a Network Device in the Rack
     print("Which device would you like to connect to. To select an individual device, your options are any of these files. ")
     ## for each template, print template and it's count
-    ips = Ips_and_templates.keys()
+    ips = IPs_and_templates.keys()
     optionsindextoIPs = {}
     for ip in ips:
         print("Option", index, "is", ip)
@@ -98,15 +101,15 @@ while (choice_selected == False) and (quit == False) and (get_devices == True):
             exit()
         elif(devicechoice == all):
             print("You selected all. Preparing devices")
-            choice_selected = True
+            device_selected = True
         elif(devicechoice > -1 and devicechoice <= len(optionsindextoIPs)):
             print("Device choice was ", devicechoice)
             selectedip = optionsindextoIPs.get(devicechoice)
             print("Selected ip is " , selectedip)
-            print("selected device is", Ips_and_templates.get(selectedip))
-            choice_selected = True
+            print("selected device is", IPs_and_templates.get(selectedip))
+            device_selected = True
         else:
-                choice_selected = False
+                device_selected = False
                 print("Failed to get template based on IP. Please double check your entry")
             # print("You didn't select one of the options. Enter an option between 1 and ", len(Ips_and_templates) , "Try again")
     except Exception as e:
@@ -123,10 +126,10 @@ while (choice_selected == False) and (quit == False) and (get_devices == True):
 
 ## if choice is all, for each IP acting as a key for my templates, + action
 if devicechoice == all:
-    for ip in Ips_and_templates:
-        print(action, ip, Ips_and_templates.get(ip))
-        connecttodevice.runaction(action, ip, Ips_and_templates.get(ip))
+    for ip in IPs_and_templates:
+        print(action, ip, IPs_and_templates.get(ip))
+        connectandrun.runaction(action, ip, IPs_and_templates.get(ip))
 ## otherwise, send the individual IP key along with template, + action
 else:
-    print("action is", action, "ip is", selectedip, "template is", Ips_and_templates.get(selectedip))
-    connecttodevice.runaction(action, selectedip, Ips_and_templates.get(selectedip))
+    print("action is", action, "ip is", selectedip, "template is", IPs_and_templates.get(selectedip))
+    connectandrun.runaction(action, selectedip, IPs_and_templates.get(selectedip))
