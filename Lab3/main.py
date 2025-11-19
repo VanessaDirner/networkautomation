@@ -1,42 +1,26 @@
-import netmiko
-
-
 ## Connect to 1 or all devices, push configuration
-from ping3 import ping, verbose_ping
 from ipaddress import IPv4Network, ip_network
 from netmiko import ConnectHandler
 from getpass import getpass
 
-print("import getadapters")
-import getadapters
+print("import connectandrun")
+import connectandrun
 print("Import getdevices")
 import getdevices
-print("import connecttodevice")
-import connecttodevice
-print("import savetemplates")
-import savetemplates
-
-
-# print("starting first module to get network adapters...")
-# ip_address_combined = getadapters.adapterdetails()
-# print("starting second module to get IP addreseses")
-# updevices = getdevices.getallIPs(ip_address_combined)
-
 
 ### get templates, create association between IPs and their template
 
-## testing only
+## generate correlation between Ips and templates
 updevices = ['192.168.7.1', '192.168.7.11', '192.168.7.12', '192.168.7.13', '192.168.7.14', '192.168.7.15', '192.168.7.2', '192.168.7.3']
+number_of_devices = 6
+IPs_and_templates = ()
+counter = 0
 
-print("starting save templates")
-print("starting third part to create templates... ")
-Ips_and_templates  = savetemplates.saving(updevices)
+for device in updevices:
+    filename = f"C:\\Users\\Vanessa\\Documents\\GitHub\\networkautomation\\Lab2\\templates\\{updevices[counter]}.json"
+    IPs_and_templates.update({device: filename})
+    counter = counter + 1
 
-
-
-#Prompt user to save the following information to appropriately named files
-#Reload device
-#Running configuration file (show running-config)
 
 ## keeping asking until they pick an option
 quit = False
@@ -78,13 +62,18 @@ while (choice_selected == False) and (quit == False):
         print("Ran into an issue: ", e)
 
 
-all = int(len(Ips_and_templates) + 1)
+all = int(len(number_of_devices) + 1)
 
 quit = False
 choice_selected = False
 index = int(0) 
 
-while (choice_selected == False) and (quit == False):
+if (quit == False) and (get_devices == False):
+    print("Starting scan.")    
+    # Scan the network to look for new network devices.
+    getdevices.py
+
+while (choice_selected == False) and (quit == False) and (get_devices == True):
     ##Prompt a User to input an IP Address for a Network Device in the Rack
     print("Which device would you like to connect to. To select an individual device, your options are any of these files. ")
     ## for each template, print template and it's count
@@ -141,33 +130,3 @@ if devicechoice == all:
 else:
     print("action is", action, "ip is", selectedip, "template is", Ips_and_templates.get(selectedip))
     connecttodevice.runaction(action, selectedip, Ips_and_templates.get(selectedip))
-
-
-
-
-
-exit()
-
-
-# get device choice (x)
-# get action choice (y)
-
-## if device choice is 1 of them
-## run action + connect using x+y
-
-## if device choice all
-## foreach device
-# ## run action + connect using x+y
-
-# Along with pushing configurations to devices, your application must also be able to perform the following tasks:
-
-
-# Save running-config from Devices to a unique folder.
-#savetemplates.py
-
-# Scan the network to look for new network devices.
-#getdevices.py
-
-# Read connection information from a .json file unique to each device.
-
-
