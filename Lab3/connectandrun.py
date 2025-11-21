@@ -47,15 +47,20 @@ def runaction(action, host_ip, template):
             commands = ["hostname yourMom"]
             # Push configuration to device
             print("Pushing configuration to device")
-            runconf = net_connect.send_config_set(commands)
-            print(runconf)
-            push_success = True
+            #runconf = net_connect.send_config_set(commands)
+            ## push from a file 
+            pushconfig_file = f"C:\\Users\\Vanessa\\Documents\\GitHub\\networkautomation\\Lab3\\pushconfig\\{host_ip}.txt"
+            output = net_connect.send_config_from_file(pushconfig_file)
+            output += net_connect.save_config()
+            print(output)
+            # push_success = True
             net_connect.disconnect()
         except Exception as e:
-            if push_success == True:
-                print("Push config completed")
-            else:
-                print("Failed to configure devices: ", e)
+            print(e)
+            # if push_success == True:
+            #     print("Push config completed")
+            # else:
+            #     print("Failed to configure devices: ", e)
 
     if action == "1":
     # Option 1
@@ -75,9 +80,9 @@ def runaction(action, host_ip, template):
             success = True
         except Exception as e:
             print("Failed to print to file:", e)
-    if success == True:
-        print("") # fail succesfully and silently -- what a great idea for prod
-    else:
-         print("did not run an action")
+    # if success == True:
+    #     print("") # fail succesfully and silently -- what a great idea for prod
+    # else:
+    #      print("did not run an action")
 
 
