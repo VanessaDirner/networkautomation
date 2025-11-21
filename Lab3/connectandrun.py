@@ -4,6 +4,7 @@ import os
 import json
 
 
+
 def runaction(action, host_ip, template):
         
     # Connect to the Network Device, and display the following information
@@ -18,22 +19,12 @@ def runaction(action, host_ip, template):
     print("The model is ")
     print("printed model succesfully")
 
-    # Prompt user to pick one of the following options to have it be performed on the device you are connecting to:
-    print("Which option would you like to perform.")
-    print("Option 1: Create a Loopback Interface with a valid IP address")
-    print("Option 2: Enter in a static route to another Router in your setup")
-    print("Option 3: Display and validate the IP Route Table is correct")
-    action = 1
-
-
-
     # All completed prompts should prompt the user to continue modifying the currently selected device,
     #  and then loop back to section b,
     #  and always offer the user an option to quit if they are satisfied with their actions.
 
     print("Would you like to continue modifying the current device?")
     print("Enter 1 to continue, 0 to stop.")
-
 
     ## next part     
     # Read connection information from a .json file unique to each device.
@@ -52,16 +43,20 @@ def runaction(action, host_ip, template):
     ## once connected, run command
     if action == "0":
         try:    
-            # Create a Loopback Interface with a valid IP address
-            print("Creating a Loopback Interface with a valid IP address")
-            connect_success = True
-            runconf = net_connect.send_command('')
+            # load configuration
+            commands = ["hostname yourMom"]
+            # Push configuration to device
+            print("Pushing configuration to device")
+            runconf = net_connect.send_config_set(commands)
+            print(runconf)
+            push_success = True
             net_connect.disconnect()
         except Exception as e:
-            if success == True:
-                print("Device reload completed")
+            if push_success == True:
+                print("Push config completed")
             else:
-                print("Failed to reload device: ", e)
+                print("Failed to configure devices: ", e)
+
     if action == "1":
     # Option 1
     # Save running-config from Devices to a unique folder.

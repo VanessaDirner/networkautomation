@@ -11,7 +11,7 @@ import getdevices
 ### get templates, create association between IPs and their template
 
 ## generate correlation between Ips and templates
-updevices = ['192.168.7.1', '192.168.7.11', '192.168.7.12', '192.168.7.13', '192.168.7.14', '192.168.7.15', '192.168.7.2', '192.168.7.3']
+updevices = ['192.168.7.1', '192.168.7.2', '192.168.7.11', '192.168.7.12', '192.168.7.13', '192.168.7.14']
 number_of_devices = 6
 IPs_and_templates = {}
 counter = 0
@@ -43,7 +43,7 @@ while (choice_selected == False) and (quit == False):
         if outoption == '0':            
             print("You selected 0 succesfully.")
             action = outoption
-            get_devices ==True
+            get_devices = True
             choice_selected = True
         elif outoption == '1':
             print("You selected 1 succesfully.")
@@ -70,11 +70,14 @@ all = int(number_of_devices + 1)
 quit = False
 index = int(0) 
 
+# print("did we make it here - 1")
+
 if (quit == False) and (get_addresses == True):
     print("Starting scan.")    
     # Scan the network to look for new network devices.
     getdevices.getallIPs('192.168.6.0/24')
 
+# print("did we make it here - 2")print("choice selected = ", choice_selected, "get_devices = ", get_devices, "deviceselected = ", device_selected)
 while (choice_selected == True) and (quit == False) and (get_devices == True) and (device_selected == False):
     ##Prompt a User to input an IP Address for a Network Device in the Rack
     print("Which device would you like to connect to. To select an individual device, your options are any of these files. ")
