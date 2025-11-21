@@ -75,7 +75,7 @@ index = int(0)
 if (quit == False) and (get_addresses == True):
     print("Starting scan.")    
     # Scan the network to look for new network devices.
-    getdevices.getallIPs('192.168.6.0/24')
+    getdevices.getallIPs('192.168.7.0/24')
 
 # print("did we make it here - 2")print("choice selected = ", choice_selected, "get_devices = ", get_devices, "deviceselected = ", device_selected)
 while (choice_selected == True) and (quit == False) and (get_devices == True) and (device_selected == False):

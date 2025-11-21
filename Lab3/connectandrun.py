@@ -57,22 +57,18 @@ def runaction(action, host_ip, template):
             net_connect.disconnect()
         except Exception as e:
             print(e)
-            # if push_success == True:
-            #     print("Push config completed")
-            # else:
-            #     print("Failed to configure devices: ", e)
 
     if action == "1":
     # Option 1
     # Save running-config from Devices to a unique folder.
     #savetemplates.py
         try:
-            runconf = net_connect.send_command('')
+            runconf = net_connect.send_command('show run')
             print("Grabbed details succesfully.")
             # Enter in a static route to another Router in your setup
             print("Entering in a static route to another Router in your setup")
             print("host IP is", host_ip)
-            filename = f"C:\\Users\\Vanessa\\Documents\\GitHub\\networkautomation\\assignment3\\runningconfig\\{host_ip}.txt"
+            filename = f"C:\\Users\\Vanessa\\Documents\\GitHub\\networkautomation\\Lab3\\runningconfig\\{host_ip}.txt"
             print("filename will be", filename)
             with open(filename, "w") as f:
                 f.write(runconf)
@@ -80,9 +76,4 @@ def runaction(action, host_ip, template):
             success = True
         except Exception as e:
             print("Failed to print to file:", e)
-    # if success == True:
-    #     print("") # fail succesfully and silently -- what a great idea for prod
-    # else:
-    #      print("did not run an action")
-
 
