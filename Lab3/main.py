@@ -11,13 +11,15 @@ import getdevices
 ### get templates, create association between IPs and their template
 
 ## generate correlation between Ips and templates
-updevices = ['192.168.7.1', '192.168.7.2', '192.168.7.11', '192.168.7.12', '192.168.7.13', '192.168.7.14']
+
+updevices7 = ['192.168.7.3', '192.168.7.2', '192.168.7.11', '192.168.7.12', '192.168.7.13', '192.168.7.14']
+updevices = ['192.168.6.3', '192.168.6.2', '192.168.6.11', '192.168.6.12', '192.168.6.13', '192.168.6.14']
 number_of_devices = 6
 IPs_and_templates = {}
 counter = 0
 
 for device in updevices:
-    filename = f"C:\\Users\\Vanessa\\Documents\\GitHub\\networkautomation\\Lab2\\templates\\{updevices[counter]}.json"
+    filename = f"C:\\Users\\Vanessa\\Documents\\GitHub\\networkautomation\\Lab3\\templates\\{updevices[counter]}.json"
     IPs_and_templates.update({device: filename})
     counter = counter + 1
 
@@ -75,7 +77,7 @@ index = int(0)
 if (quit == False) and (get_addresses == True):
     print("Starting scan.")    
     # Scan the network to look for new network devices.
-    getdevices.getallIPs('192.168.7.0/24')
+    getdevices.getallIPs('192.168.6.0/24')
 
 # print("did we make it here - 2")print("choice selected = ", choice_selected, "get_devices = ", get_devices, "deviceselected = ", device_selected)
 while (choice_selected == True) and (quit == False) and (get_devices == True) and (device_selected == False):
