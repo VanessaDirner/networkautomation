@@ -12,8 +12,8 @@ import getdevices
 
 ## generate correlation between Ips and templates
 
-updevices7 = ['192.168.7.3', '192.168.7.2', '192.168.7.11', '192.168.7.12', '192.168.7.13', '192.168.7.14']
-updevices = ['192.168.6.3', '192.168.6.2', '192.168.6.11', '192.168.6.12', '192.168.6.13', '192.168.6.14']
+updevices = ['192.168.7.3', '192.168.7.2', '192.168.7.11', '192.168.7.12', '192.168.7.13', '192.168.7.14']
+updevices6 = ['192.168.6.3', '192.168.6.2', '192.168.6.11', '192.168.6.12', '192.168.6.13', '192.168.6.14']
 number_of_devices = 6
 IPs_and_templates = {}
 counter = 0
@@ -87,7 +87,7 @@ while (choice_selected == True) and (quit == False) and (get_devices == True) an
     ips = IPs_and_templates.keys()
     optionsindextoIPs = {}
     for ip in ips:
-        print("Option", index, "is", ip)
+        # print("Option", index, "is", ip)
         optionsindextoIPs.update({index : ip})
         index = index + 1
     print("Items list", optionsindextoIPs.items())

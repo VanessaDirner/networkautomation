@@ -44,7 +44,7 @@ def runaction(action, host_ip, template):
     if action == "0":
         try:    
             # load configuration
-            commands = ["hostname yourMom"]
+            # commands = ["hostname yourMom"]
             # Push configuration to device
             print("Pushing configuration to device")
             #runconf = net_connect.send_config_set(commands)
