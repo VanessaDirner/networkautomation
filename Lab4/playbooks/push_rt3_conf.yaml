@@ -1,0 +1,46 @@
+---
+- name: Basic VLAN Configuration
+  gather_facts: false
+  hosts: routers
+
+  vars:
+    cli:
+      username: cisco
+      password: cisco
+      timeout: 100
+
+  tasks:
+  - name: Set hostname
+    ios_config:
+      lines:
+      - hostname Router
+
+  - name: Configure default route
+    ios_config:
+      lines:
+      - ip route 0.0.0.0 0.0.0.0 GigabitEthernet0/0/0
+
+  - name: Configure subinterfaces
+    ios_config:
+      parents:
+        - interface GigabitEthernet0/0/1.11
+      lines:
+        - encapsulation dot1Q 11 native
+        - ip address 10.0.11.254 255.255.255.0
+        - no shutdown
+
+  - ios_config:
+      parents:
+        - interface GigabitEthernet0/0/1.20
+      lines:
+        - encapsulation dot1Q 20
+        - ip address 10.0.20.254 255.255.255.0
+        - no shutdown
+
+  - ios_config:
+      parents:
+        - interface GigabitEthernet0/0/1.30
+      lines:
+        - encapsulation dot1Q 30
+        - ip address 10.0.30.254 255.255.255.0
+        - no shutdown

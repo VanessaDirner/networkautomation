@@ -1,0 +1,15 @@
+---
+- name: Backup and configure Cisco devices
+  hosts: all
+  gather_facts: false
+  connection: network_cli
+  collections:
+    - cisco.ios
+
+  tasks:
+    - name: Configurable backup path
+      ios_config:
+        backup: true
+        backup_options:
+          filename: "{{ inventory_hostname }}.cfg"
+          dir_path: /home/vanessa/Documents/networkautomation/Lab4/backups

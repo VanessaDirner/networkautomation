@@ -1,0 +1,51 @@
+---
+- name: Compare running config to intended config
+  hosts: 192.168.6.12
+  gather_facts: false
+  connection: network_cli
+
+  vars:
+    intended_cfg: /home/vanessa/Documents/networkautomation/Lab4/compare/sw2.cfg
+
+  tasks:
+    - name: Diff running-config vs intended-config
+      cisco.ios.ios_config:
+        intended_config: "{{ lookup('file', intended_cfg) }}"
+        diff_against: intended
+      diff: true
+
+### DOCUMENTATION / NOTE - To improve upon this, have the config file name as a variable, as well as the specified host.
+#### CONTD. Call them/set them in the python section based on user prompt info. Ex. I want to compare SW2 live config to it's baseline/backup file.
+
+
+  # tasks:
+  #   - name: Compare intended config with running config
+  #     cisco.ios.ios_config:
+  #       src: /home/vanessa/Documents/networkautomation/Lab4/compare/sw2.cfg
+  #       diff_against: running
+  #     check mode: true
+
+# ---
+# - name: Compare two Cisco backup files
+#   hosts: localhost
+#   gather_facts: false
+#   tasks:
+#     - name: Compare backup1.txt and backup2.txt
+#       ansible.builtin.command:
+#         cmd: diff -u /home/vanessa/Documents/networkautomation/Lab4/compare/sw1.cfg /home/vanessa/Documents/networkautomation/Lab4/compare/sw2mod.cfg
+#       register: diff_result
+#       ignore_errors: yes
+
+    # - name: Compare running config to intended config
+    #   cisco.ios.ios_config:
+    #    intended_config: "{{ lookup('file', 'sw2_intended.cfg') }}"
+    #    diff_against: intended
+    #    diff: true
+
+    # - name: Print diff output
+    #   ansible.builtin.debug:
+    #     msg: "{{ diff_result.stdout_lines }}"
+
+    # - name: Print summary
+    #   ansible.builtin.debug:
+    #     msg: "{{ diff_result.stdout_lines }}"

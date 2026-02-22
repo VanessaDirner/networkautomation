@@ -1,0 +1,68 @@
+---
+- name: Configure SW1 Switch
+  hosts: sw1
+  gather_facts: no
+  collections:
+    - cisco.ios
+
+  tasks:
+
+    - name: Set hostname
+      ios_config:
+        lines:
+          - hostname sw1pc
+
+
+    - name: Create VLAN 11
+      ios_config:
+        parents:
+         - vlan 11
+        lines:
+          - name shared
+
+    - name: Create VLAN 20
+      ios_config:
+        parents:
+          - vlan 20
+        lines:
+          - name pc
+
+    - name: Create VLAN 30
+      ios_config:
+        parents:
+         - vlan 30
+        lines:
+          - name server
+
+
+    - name: Configure PC access port Gi1/0/2
+      ios_config:
+        parents:
+          - interface GigabitEthernet1/0/2
+        lines:
+          - switchport mode access
+          - switchport access vlan 20
+          - switchport port-security
+          - switchport port-security maximum 1
+          - switchport port-security violation restrict
+          - switchport port-security mac-address sticky
+          - no shutdown
+
+    - name: Configure uplink to router Gi1/0/1
+      ios_config:
+        parents:
+          - interface GigabitEthernet1/0/1
+        lines:
+          - switchport mode trunk
+          - switchport trunk native vlan 11
+          - switchport trunk allowed vlan 11,20,30
+          - no shutdown
+
+    - name: Configure uplink to other switch Gi1/0/10
+      ios_config:
+        parents:
+          - interface GigabitEthernet1/0/10
+        lines:
+          - switchport mode trunk
+          - switchport trunk allowed vlan 11,20,30
+          - no shutdown
